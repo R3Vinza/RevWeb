@@ -1,272 +1,654 @@
-<!DOCTYPE html>
-<html lang="id">
+ <!DOCTYPE html>
+<html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<title>FakeCall Generator</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>FakeCall Generator - RevinzaDesigner</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
+:root{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --primary:#8b5cf6;
+    --secondary:#ec4899;
+    --text:#f8fafc;
+    --soft:#94a3b8;
+    --border:rgba(0,0,0,.3);
+    --shadow:rgba(0,0,0,.3);
+    --input-bg:rgba(255,255,255,.06);
+    --success:#22c55e;
+    --danger:#ef4444;
+    --call-green:#22c55e;
+    --call-green-dark:#16a34a;
+}
+
+[data-theme="light"]{
+    --bg:#f5f5f0;
+    --card:#ffffff;
+    --primary:#8b5cf6;
+    --secondary:#ec4899;
+    --text:#1a1a1a;
+    --soft:#666666;
+    --border:rgba(0,0,0,.15);
+    --shadow:rgba(0,0,0,.15);
+    --input-bg:rgba(0,0,0,.04);
+    --success:#16a34a;
+    --danger:#dc2626;
+    --call-green:#22c55e;
+    --call-green-dark:#16a34a;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
 body{
-  background:#111;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  text-align:center;
-  padding:20px;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    padding-bottom:40px;
+}
+
+/* BACKGROUND GLOW */
+.bg-glow{
+    position:fixed;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:-1;
+    pointer-events:none;
+}
+
+.glow-circle{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.12;
+}
+
+.glow-1{
+    width:400px;
+    height:400px;
+    background:var(--call-green);
+    top:-150px;
+    left:-150px;
+}
+
+.glow-2{
+    width:350px;
+    height:350px;
+    background:var(--primary);
+    bottom:-150px;
+    right:-150px;
+}
+
+/* ============================================
+   HEADER - DASHBOARD STYLE
+   ============================================ */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    position:relative;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
 .back-btn{
-  position:fixed;
-  top:15px;
-  left:15px;
-  background:#2563eb;
-  color:white;
-  text-decoration:none;
-  padding:10px 16px;
-  border-radius:10px;
-  font-weight:bold;
-  box-shadow:0 4px 15px rgba(0,0,0,.3);
+    width:44px;
+    height:44px;
+    border-radius:16px;
+    border:2px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    cursor:pointer;
+    box-shadow:0 6px 0 var(--shadow), 0 8px 20px var(--shadow);
+    transition:.2s;
+    text-decoration:none;
 }
 
-.back-btn:hover{
-  opacity:.9;
+.back-btn:active{
+    transform:translateY(6px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
 }
 
-input,button{
-  width:90%;
-  padding:10px;
-  margin:6px;
-  background:#1f1f1f;
-  border:1px solid #333;
-  border-radius:8px;
-  color:white;
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-button{
-  background:#00a884;
-  cursor:pointer;
-  font-weight:bold;
+.brand-logo{
+    width:50px;
+    height:50px;
+    border-radius:16px;
+    background:linear-gradient(135deg, var(--call-green), var(--call-green-dark));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    color:white;
+    box-shadow:0 4px 15px rgba(34,197,94,.3);
+    overflow:hidden;
+}
+
+.brand-logo i{
+    font-size:24px;
+}
+
+.brand-text h1{
+    font-size:22px;
+    font-weight:800;
+}
+
+.brand-text p{
+    font-size:12px;
+    color:var(--soft);
+}
+
+.header-right{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.theme-btn{
+    width:48px;
+    height:48px;
+    border-radius:16px;
+    border:2px solid var(--border);
+    background:linear-gradient(135deg, #f59e0b, #d97706);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    cursor:pointer;
+    box-shadow:0 6px 0 rgba(0,0,0,.3), 0 8px 20px rgba(0,0,0,.3);
+    transition:.2s;
+}
+
+.theme-btn:active{
+    transform:translateY(6px);
+    box-shadow:0 0 0 rgba(0,0,0,.3), 0 2px 5px rgba(0,0,0,.3);
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.container{
+    max-width:480px;
+    margin:0 auto;
+    padding:0 20px;
+}
+
+/* TITLE CARD */
+.title-card{
+    padding:24px 20px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.title-card .icon{
+    width:60px;
+    height:60px;
+    border-radius:20px;
+    background:linear-gradient(135deg, var(--call-green), var(--call-green-dark));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    color:white;
+    margin:0 auto 14px;
+    box-shadow:0 4px 0 var(--shadow), 0 8px 20px rgba(34,197,94,.3);
+    border:2px solid var(--border);
+}
+
+.title-card h2{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.title-card p{
+    font-size:13px;
+    color:var(--soft);
+    line-height:1.5;
+}
+
+/* FORM CARD */
+.form-card{
+    padding:24px 20px;
+    margin-bottom:16px;
+}
+
+.input-group{
+    margin-bottom:16px;
+}
+
+.input-group label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--soft);
+    margin-bottom:8px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.input-group label i{
+    color:var(--call-green);
+    margin-right:6px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="file"]{
+    width:100%;
+    padding:14px 16px;
+    background:var(--input-bg);
+    border:2px solid var(--border);
+    border-radius:16px;
+    color:var(--text);
+    font-size:15px;
+    outline:none;
+    transition:.2s;
+    box-shadow:inset 0 2px 4px rgba(0,0,0,.05);
+}
+
+.input-group input[type="text"]:focus{
+    border-color:var(--call-green);
+    box-shadow:0 0 15px rgba(34,197,94,.2), inset 0 2px 4px rgba(0,0,0,.05);
+}
+
+.input-group input[type="text"]::placeholder{
+    color:var(--soft);
+    opacity:.6;
+}
+
+/* Custom file input */
+.file-input-wrapper{
+    position:relative;
+    overflow:hidden;
+    display:inline-block;
+    width:100%;
+}
+
+.file-input-wrapper input[type="file"]{
+    position:absolute;
+    left:0;
+    top:0;
+    opacity:0;
+    width:100%;
+    height:100%;
+    cursor:pointer;
+}
+
+.file-input-label{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:14px 16px;
+    background:var(--input-bg);
+    border:2px dashed var(--border);
+    border-radius:16px;
+    color:var(--soft);
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.file-input-label:hover{
+    border-color:var(--call-green);
+    color:var(--call-green);
+    background:rgba(34,197,94,.05);
+}
+
+.file-input-label i{
+    font-size:20px;
+}
+
+.file-name{
+    font-size:12px;
+    color:var(--call-green);
+    margin-top:6px;
+    font-weight:600;
+}
+
+/* GENERATE BUTTON */
+.generate-btn{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:18px;
+    background:linear-gradient(135deg, var(--call-green), var(--call-green-dark));
+    color:white;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 6px 0 var(--shadow), 0 8px 25px rgba(34,197,94,.4);
+    border:2px solid var(--border);
+    transition:.2s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.generate-btn:active{
+    transform:translateY(6px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px rgba(34,197,94,.3);
+}
+
+.generate-btn i{
+    font-size:18px;
+}
+
+/* RESULT CARD */
+.result-card{
+    padding:20px;
+    text-align:center;
+    display:none;
+    animation:fadeIn .3s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+.result-card.show{
+    display:block;
+}
+
+.result-card h3{
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:14px;
+    color:var(--call-green);
+}
+
+.result-card h3 i{
+    margin-right:6px;
 }
 
 #resultImg{
-  width:360px;
-  max-width:100%;
-  margin-top:20px;
-  border-radius:12px;
-  display:none;
+    width:100%;
+    max-width:360px;
+    border-radius:20px;
+    border:2px solid var(--border);
+    box-shadow:0 6px 0 var(--shadow), 0 8px 20px var(--shadow);
 }
+
+/* DOWNLOAD BUTTON */
+.download-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:16px;
+    padding:14px 24px;
+    border-radius:16px;
+    background:linear-gradient(135deg, var(--primary), var(--secondary));
+    color:white;
+    text-decoration:none;
+    font-weight:700;
+    font-size:14px;
+    box-shadow:0 6px 0 var(--shadow), 0 8px 20px rgba(139,92,246,.3);
+    border:2px solid var(--border);
+    transition:.2s;
+    cursor:pointer;
+}
+
+.download-btn:active{
+    transform:translateY(6px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px rgba(139,92,246,.3);
+}
+
+.download-btn i{
+    font-size:16px;
+}
+
+/* CARDS */
+.card-upin{
+    background:var(--card);
+    border-radius:24px;
+    border:2px solid var(--border);
+    box-shadow:0 6px 0 var(--shadow), 0 8px 20px var(--shadow);
+    transition:.2s;
+}
+
+.card-upin:active{
+    transform:translateY(6px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
+}
+
+/* CANVAS */
+canvas{
+    display:none;
+}
+
 </style>
 </head>
 <body>
 
-<a href="/" class="back-btn">
-  ← Dashboard
-</a>
+<!-- BACKGROUND GLOW -->
+<div class="bg-glow">
+    <div class="glow-circle glow-1"></div>
+    <div class="glow-circle glow-2"></div>
+</div>
 
-<h2>FakeCall Generator</h2>
+<!-- HEADER - DASHBOARD STYLE -->
+<div class="header">
+    <div class="header-left">
+        <a href="/" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div class="brand">
+            <div class="brand-logo">
+                <i class="fa-solid fa-phone"></i>
+            </div>
+            <div class="brand-text">
+                <h1>FakeCall</h1>
+                <p>Generator</p>
+            </div>
+        </div>
+    </div>
+    <div class="header-right">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
+</div>
 
-<input
-type="text"
-id="nama"
-placeholder="Nama Caller (misal: Sayang)"
->
+<!-- MAIN CONTENT -->
+<div class="container">
 
-<input
-type="text"
-id="durasi"
-placeholder="Durasi (misal: 00:08)"
->
+    <!-- TITLE CARD -->
+    <div class="title-card card-upin">
+        <div class="icon"><i class="fa-solid fa-phone-volume"></i></div>
+        <h2>FakeCall Generator</h2>
+        <p>Buat screenshot fake call dengan nama dan foto custom. Tinggal isi data, generate, download!</p>
+    </div>
 
-<input
-type="file"
-id="avatar"
-accept="image/*"
->
+    <!-- FORM CARD -->
+    <div class="form-card card-upin">
+        <div class="input-group">
+            <label><i class="fa-solid fa-user"></i> Nama Caller</label>
+            <input type="text" id="nama" placeholder="Contoh: Sayang, Pacar, Gebetan...">
+        </div>
 
-<button onclick="generate()">
-Generate FakeCall
-</button>
+        <div class="input-group">
+            <label><i class="fa-solid fa-clock"></i> Durasi</label>
+            <input type="text" id="durasi" placeholder="Contoh: 00:08">
+        </div>
 
-<img id="resultImg">
+        <div class="input-group">
+            <label><i class="fa-solid fa-image"></i> Foto Avatar</label>
+            <div class="file-input-wrapper">
+                <div class="file-input-label" id="fileLabel">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Klik untuk upload foto</span>
+                </div>
+                <input type="file" id="avatar" accept="image/*" onchange="updateFileName(this)">
+            </div>
+            <div class="file-name" id="fileName"></div>
+        </div>
 
-<a
-id="downloadBtn"
-style="display:none;margin-top:10px;"
-download="fakecall.jpg"
->
-<button>
-Download FakeCall
-</button>
-</a>
+        <button class="generate-btn" onclick="generate()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Generate FakeCall
+        </button>
+    </div>
 
-<canvas
-id="canvas"
-width="720"
-height="1280"
-style="display:none;"
-></canvas>
+    <!-- RESULT CARD -->
+    <div class="result-card card-upin" id="resultCard">
+        <h3><i class="fa-solid fa-circle-check"></i> Berhasil Dibuat!</h3>
+        <img id="resultImg" alt="FakeCall Result">
+        <br>
+        <a id="downloadBtn" class="download-btn" download="fakecall.jpg">
+            <i class="fa-solid fa-download"></i>
+            Download FakeCall
+        </a>
+    </div>
+
+</div>
+
+<canvas id="canvas" width="720" height="1280"></canvas>
 
 <script>
 
+// ==================== THEME ====================
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    const icon = document.getElementById('themeIcon');
+    if(icon) {
+        icon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    }
+}
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const html = document.documentElement;
+    
+    html.setAttribute('data-theme', savedTheme);
+    const icon = document.getElementById('themeIcon');
+    if(icon) {
+        icon.className = savedTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    }
+}
+
+// ==================== FILE INPUT ====================
+function updateFileName(input) {
+    const fileName = document.getElementById('fileName');
+    const fileLabel = document.getElementById('fileLabel');
+    
+    if (input.files && input.files[0]) {
+        fileName.textContent = input.files[0].name;
+        fileLabel.innerHTML = '<i class="fa-solid fa-check"></i><span>Foto sudah dipilih</span>';
+        fileLabel.style.borderColor = 'var(--call-green)';
+        fileLabel.style.color = 'var(--call-green)';
+    }
+}
+
+// ==================== GENERATE ====================
 async function generate(){
-
-  const nama =
-  document.getElementById("nama").value ||
-  "Unknown";
-
-  const durasi =
-  document.getElementById("durasi").value ||
-  "00:00";
-
-  const file =
-  document.getElementById("avatar").files[0];
-
-  if(!file){
-    alert("Upload foto dulu bro!");
-    return;
-  }
-
-  const avatarURL =
-  await fileToUrl(file);
-
-  const canvas =
-  document.getElementById("canvas");
-
-  const ctx =
-  canvas.getContext("2d");
-
-  const bg =
-  await loadImg(
-  "https://files.catbox.moe/pmhptv.jpg"
-  );
-
-  ctx.drawImage(
-  bg,
-  0,
-  0,
-  720,
-  1280
-  );
-
-  ctx.font =
-  "bold 65px sans-serif";
-
-  ctx.fillStyle =
-  "white";
-
-  ctx.textAlign =
-  "center";
-
-  ctx.fillText(
-  nama,
-  360,
-  200
-  );
-
-  ctx.font =
-  "48px sans-serif";
-
-  ctx.fillStyle =
-  "#d1d1d1";
-
-  ctx.fillText(
-  durasi,
-  360,
-  270
-  );
-
-  const avatarImg =
-  await loadImg(
-  avatarURL
-  );
-
-  ctx.save();
-
-  ctx.beginPath();
-
-  ctx.arc(
-  360,
-  640,
-  200,
-  0,
-  Math.PI * 2
-  );
-
-  ctx.clip();
-
-  ctx.drawImage(
-  avatarImg,
-  160,
-  440,
-  400,
-  400
-  );
-
-  ctx.restore();
-
-  const dataURL =
-  canvas.toDataURL(
-  "image/jpeg"
-  );
-
-  const result =
-  document.getElementById(
-  "resultImg"
-  );
-
-  result.src =
-  dataURL;
-
-  result.style.display =
-  "block";
-
-  const dl =
-  document.getElementById(
-  "downloadBtn"
-  );
-
-  dl.href =
-  dataURL;
-
-  dl.style.display =
-  "block";
+    const nama = document.getElementById("nama").value || "Unknown";
+    const durasi = document.getElementById("durasi").value || "00:00";
+    const file = document.getElementById("avatar").files[0];
+    
+    if(!file){
+        alert("Upload foto dulu bro!");
+        return;
+    }
+    
+    const avatarURL = await fileToUrl(file);
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    
+    const bg = await loadImg("https://files.catbox.moe/pmhptv.jpg");
+    
+    ctx.drawImage(bg, 0, 0, 720, 1280);
+    
+    // Nama
+    ctx.font = "bold 65px sans-serif";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText(nama, 360, 200);
+    
+    // Durasi
+    ctx.font = "48px sans-serif";
+    ctx.fillStyle = "#d1d1d1";
+    ctx.fillText(durasi, 360, 270);
+    
+    // Avatar
+    const avatarImg = await loadImg(avatarURL);
+    
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(360, 640, 200, 0, Math.PI * 2);
+    ctx.clip();
+    ctx.drawImage(avatarImg, 160, 440, 400, 400);
+    ctx.restore();
+    
+    const dataURL = canvas.toDataURL("image/jpeg");
+    
+    const result = document.getElementById("resultImg");
+    result.src = dataURL;
+    
+    const resultCard = document.getElementById("resultCard");
+    resultCard.classList.add("show");
+    
+    const dl = document.getElementById("downloadBtn");
+    dl.href = dataURL;
+    
+    // Scroll ke result
+    setTimeout(() => {
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 }
 
 function loadImg(src){
-
-  return new Promise(res=>{
-
-    const img =
-    new Image();
-
-    img.crossOrigin =
-    "anonymous";
-
-    img.onload =
-    ()=>res(img);
-
-    img.src =
-    src;
-
-  });
-
+    return new Promise(res => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => res(img);
+        img.src = src;
+    });
 }
 
 function fileToUrl(file){
-
-  return new Promise(res=>{
-
-    const r =
-    new FileReader();
-
-    r.onload =
-    ()=>res(r.result);
-
-    r.readAsDataURL(file);
-
-  });
-
+    return new Promise(res => {
+        const r = new FileReader();
+        r.onload = () => res(r.result);
+        r.readAsDataURL(file);
+    });
 }
+
+// INIT
+loadTheme();
 
 </script>
 
 </body>
 </html>
+ 
