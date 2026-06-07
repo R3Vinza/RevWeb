@@ -1,353 +1,498 @@
-
-<!DOCTYPE html>
-<html lang="id">
+ <!DOCTYPE html>
+<html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-<title>AkiraAi Modern</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<title>Chat AI - RevinzaDesigner</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+:root{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --primary:#8b5cf6;
+    --secondary:#ec4899;
+    --text:#f8fafc;
+    --soft:#94a3b8;
+    --border:rgba(0,0,0,.3);
+    --shadow:rgba(0,0,0,.3);
+    --input-bg:rgba(255,255,255,.06);
+    --user-msg:linear-gradient(135deg,#8b5cf6,#ec4899);
+    --bot-msg:rgba(255,255,255,.06);
 }
 
-html{
-scroll-behavior:smooth;
+[data-theme="light"]{
+    --bg:#f5f5f0;
+    --card:#ffffff;
+    --primary:#8b5cf6;
+    --secondary:#ec4899;
+    --text:#1a1a1a;
+    --soft:#666666;
+    --border:rgba(0,0,0,.15);
+    --shadow:rgba(0,0,0,.15);
+    --input-bg:rgba(0,0,0,.04);
+    --user-msg:linear-gradient(135deg,#8b5cf6,#ec4899);
+    --bot-msg:rgba(0,0,0,.04);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 body{
-background:#070b14;
-color:white;
-height:100dvh;
-overflow:hidden;
-position:relative;
+    background:var(--bg);
+    color:var(--text);
+    height:100dvh;
+    overflow:hidden;
+    position:relative;
 }
 
-/* BACKGROUND */
-
-.bg{
-position:absolute;
-width:100%;
-height:100%;
-overflow:hidden;
-z-index:-1;
+/* BACKGROUND GLOW */
+.bg-glow{
+    position:fixed;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:-1;
+    pointer-events:none;
 }
 
-.circle{
-position:absolute;
-border-radius:50%;
-filter:blur(90px);
-opacity:.4;
-animation:float 8s infinite alternate;
+.glow-circle{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.15;
 }
 
-.c1{
-width:300px;
-height:300px;
-background:#00bfff;
-top:-100px;
-left:-100px;
+.glow-1{
+    width:400px;
+    height:400px;
+    background:var(--primary);
+    top:-150px;
+    left:-150px;
+    animation:float 8s infinite alternate;
 }
 
-.c2{
-width:250px;
-height:250px;
-background:#7b2fff;
-bottom:-100px;
-right:-100px;
-animation-delay:2s;
+.glow-2{
+    width:350px;
+    height:350px;
+    background:var(--secondary);
+    bottom:-150px;
+    right:-150px;
+    animation:float 8s infinite alternate-reverse;
 }
 
 @keyframes float{
-from{
-transform:translateY(0px) translateX(0px);
-}
-to{
-transform:translateY(40px) translateX(20px);
-}
+    from{transform:translateY(0) translateX(0);}
+    to{transform:translateY(40px) translateX(20px);}
 }
 
-/* APP */
-
+/* APP CONTAINER */
 .app{
-height:100dvh;
-display:flex;
-flex-direction:column;
-backdrop-filter:blur(10px);
+    height:100dvh;
+    display:flex;
+    flex-direction:column;
+    backdrop-filter:blur(10px);
 }
 
-/* HEADER */
-
+/* ============================================
+   HEADER - DASHBOARD STYLE
+   ============================================ */
 .header{
-display:flex;
-align-items:center;
-gap:12px;
-padding:15px 20px;
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(20px);
-border-bottom:1px solid rgba(255,255,255,.08);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    background:var(--card);
+    border-bottom:2px solid var(--border);
+    box-shadow:0 4px 0 var(--shadow), 0 8px 20px var(--shadow);
+    z-index:100;
 }
 
-/* BACK BUTTON */
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
 
 .back-btn{
-width:42px;
-height:42px;
-border:none;
-border-radius:12px;
-background:rgba(255,255,255,.08);
-color:white;
-font-size:22px;
-cursor:pointer;
-display:flex;
-align-items:center;
-justify-content:center;
-backdrop-filter:blur(10px);
-transition:.2s;
+    width:44px;
+    height:44px;
+    border-radius:16px;
+    border:2px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    cursor:pointer;
+    box-shadow:0 6px 0 var(--shadow), 0 8px 20px var(--shadow);
+    transition:.2s;
 }
 
-.back-btn:hover{
-transform:scale(1.08);
-background:rgba(255,255,255,.15);
+.back-btn:active{
+    transform:translateY(6px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
 }
 
-/* PROFILE */
-
-.profile{
-width:50px;
-height:50px;
-border-radius:50%;
-object-fit:cover;
-border:2px solid #00bfff;
-box-shadow:0 0 15px #00bfff;
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.header-text h1{
-font-size:18px;
-font-weight:600;
+.brand-logo{
+    width:44px;
+    height:44px;
+    border-radius:14px;
+    background:linear-gradient(135deg, var(--primary), var(--secondary));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    color:white;
+    box-shadow:0 4px 15px rgba(139,92,246,.3);
+    overflow:hidden;
+    flex-shrink:0;
 }
 
-.header-text p{
-font-size:12px;
-color:#aaa;
+.brand-logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
-/* CHAT */
+.brand-text h1{
+    font-size:18px;
+    font-weight:700;
+}
 
+.brand-text p{
+    font-size:12px;
+    color:var(--soft);
+}
+
+.header-right{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.status-badge{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    background:rgba(34,197,94,.15);
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+    color:#22c55e;
+    border:2px solid var(--border);
+}
+
+.status-badge i{
+    font-size:10px;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:.5;}
+}
+
+.theme-btn{
+    width:44px;
+    height:44px;
+    border-radius:16px;
+    border:2px solid var(--border);
+    background:linear-gradient(135deg, #f59e0b, #d97706);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    cursor:pointer;
+    box-shadow:0 6px 0 rgba(0,0,0,.3), 0 8px 20px rgba(0,0,0,.3);
+    transition:.2s;
+}
+
+.theme-btn:active{
+    transform:translateY(6px);
+    box-shadow:0 0 0 rgba(0,0,0,.3), 0 2px 5px rgba(0,0,0,.3);
+}
+
+/* ============================================
+   CHAT AREA
+   ============================================ */
 .chat{
-flex:1;
-overflow-y:auto;
-padding:20px;
-padding-bottom:120px;
-display:flex;
-flex-direction:column;
-gap:15px;
-scroll-behavior:smooth;
--webkit-overflow-scrolling:touch;
-overscroll-behavior:contain;
+    flex:1;
+    overflow-y:auto;
+    padding:20px;
+    padding-bottom:140px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
 }
 
 .chat::-webkit-scrollbar{
-width:5px;
+    width:5px;
 }
 
 .chat::-webkit-scrollbar-thumb{
-background:#00bfff;
-border-radius:10px;
+    background:var(--primary);
+    border-radius:10px;
 }
 
+/* MESSAGE CARDS - DASHBOARD STYLE */
 .msg{
-max-width:80%;
-padding:15px;
-border-radius:18px;
-line-height:1.6;
-font-size:14px;
-animation:fade .25s ease;
-white-space:pre-wrap;
-word-wrap:break-word;
+    max-width:85%;
+    padding:16px 18px;
+    border-radius:20px;
+    line-height:1.7;
+    font-size:14px;
+    animation:msgFade .3s ease;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+    border:2px solid var(--border);
+    box-shadow:0 4px 0 var(--shadow), 0 8px 20px var(--shadow);
 }
 
-@keyframes fade{
-from{
-opacity:0;
-transform:translateY(10px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+@keyframes msgFade{
+    from{opacity:0;transform:translateY(15px) scale(.95);}
+    to{opacity:1;transform:translateY(0) scale(1);}
 }
 
+/* USER MESSAGE - DASHBOARD GRADIENT */
 .user{
-align-self:flex-end;
-background:linear-gradient(135deg,#00bfff,#0077ff);
-border-bottom-right-radius:5px;
-box-shadow:0 0 15px rgba(0,191,255,.3);
+    align-self:flex-end;
+    background:var(--user-msg);
+    color:white;
+    border-bottom-right-radius:6px;
+    box-shadow:0 4px 0 var(--shadow), 0 8px 25px rgba(139,92,246,.3);
 }
 
+/* BOT MESSAGE - DASHBOARD CARD */
 .bot{
-align-self:flex-start;
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,.05);
-border-bottom-left-radius:5px;
+    align-self:flex-start;
+    background:var(--card);
+    color:var(--text);
+    border-bottom-left-radius:6px;
 }
 
-/* INPUT */
-
-.input-area{
-position:sticky;
-bottom:0;
-left:0;
-width:100%;
-display:flex;
-gap:10px;
-padding:15px;
-padding-bottom:calc(env(safe-area-inset-bottom) + 10px);
-background:rgba(255,255,255,.04);
-backdrop-filter:blur(20px);
-border-top:1px solid rgba(255,255,255,.05);
-z-index:999;
+/* TYPING INDICATOR */
+.typing-box{
+    align-self:flex-start;
+    background:var(--card);
+    border:2px solid var(--border);
+    box-shadow:0 4px 0 var(--shadow), 0 8px 20px var(--shadow);
+    border-radius:20px;
+    border-bottom-left-radius:6px;
+    padding:18px 22px;
+    max-width:fit-content;
 }
-
-.input-box{
-flex:1;
-display:flex;
-align-items:center;
-background:rgba(255,255,255,.06);
-border-radius:15px;
-padding:0 15px;
-}
-
-input{
-flex:1;
-padding:15px 10px;
-background:none;
-border:none;
-outline:none;
-color:white;
-font-size:16px;
-}
-
-input::placeholder{
-color:#888;
-}
-
-button.send{
-border:none;
-background:linear-gradient(135deg,#00bfff,#0077ff);
-color:white;
-padding:14px 20px;
-border-radius:15px;
-font-weight:600;
-cursor:pointer;
-transition:.2s;
-box-shadow:0 0 15px rgba(0,191,255,.4);
-}
-
-button.send:hover{
-transform:scale(1.05);
-}
-
-/* TYPING */
 
 .typing{
-display:flex;
-gap:5px;
-align-items:center;
+    display:flex;
+    gap:6px;
+    align-items:center;
 }
 
 .typing span{
-width:8px;
-height:8px;
-background:white;
-border-radius:50%;
-animation:blink 1s infinite;
+    width:10px;
+    height:10px;
+    background:linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius:50%;
+    animation:typingBounce 1.2s infinite ease-in-out;
 }
 
-.typing span:nth-child(2){
-animation-delay:.2s;
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+
+@keyframes typingBounce{
+    0%,80%,100%{transform:translateY(0);opacity:.4;}
+    40%{transform:translateY(-10px);opacity:1;}
 }
 
-.typing span:nth-child(3){
-animation-delay:.4s;
+/* ============================================
+   INPUT AREA - DASHBOARD STYLE
+   ============================================ */
+.input-area{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    display:flex;
+    gap:12px;
+    padding:15px 20px;
+    padding-bottom:calc(env(safe-area-inset-bottom) + 15px);
+    background:var(--card);
+    border-top:2px solid var(--border);
+    box-shadow:0 -6px 0 var(--shadow), 0 -8px 20px var(--shadow);
+    z-index:100;
 }
 
-@keyframes blink{
-0%{
-opacity:.2;
-transform:translateY(0);
+.input-box{
+    flex:1;
+    display:flex;
+    align-items:center;
+    background:var(--input-bg);
+    border-radius:18px;
+    padding:0 18px;
+    border:2px solid var(--border);
+    box-shadow:0 4px 0 var(--shadow), inset 0 2px 4px rgba(0,0,0,.05);
+    transition:.2s;
 }
-50%{
-opacity:1;
-transform:translateY(-3px);
+
+.input-box:focus-within{
+    border-color:var(--primary);
+    box-shadow:0 4px 0 var(--shadow), 0 0 15px rgba(139,92,246,.2);
 }
-100%{
-opacity:.2;
-transform:translateY(0);
+
+input{
+    flex:1;
+    padding:16px 10px;
+    background:none;
+    border:none;
+    outline:none;
+    color:var(--text);
+    font-size:15px;
 }
+
+input::placeholder{
+    color:var(--soft);
+}
+
+button.send{
+    border:none;
+    background:linear-gradient(135deg, var(--primary), var(--secondary));
+    color:white;
+    padding:16px 22px;
+    border-radius:18px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 6px 0 var(--shadow), 0 8px 20px rgba(139,92,246,.4);
+    border:2px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+button.send:active{
+    transform:translateY(6px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px rgba(139,92,246,.3);
+}
+
+button.send i{
+    font-size:16px;
+}
+
+/* WELCOME MESSAGE */
+.welcome-msg{
+    align-self:center;
+    text-align:center;
+    padding:30px 20px;
+    max-width:90%;
+}
+
+.welcome-msg .icon{
+    width:70px;
+    height:70px;
+    border-radius:24px;
+    background:linear-gradient(135deg, var(--primary), var(--secondary));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    color:white;
+    margin:0 auto 16px;
+    box-shadow:0 6px 0 var(--shadow), 0 8px 25px rgba(139,92,246,.3);
+    border:2px solid var(--border);
+}
+
+.welcome-msg h2{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.welcome-msg p{
+    font-size:14px;
+    color:var(--soft);
+    line-height:1.6;
 }
 
 </style>
 </head>
 <body>
 
-<div class="bg">
-<div class="circle c1"></div>
-<div class="circle c2"></div>
+<!-- BACKGROUND GLOW -->
+<div class="bg-glow">
+    <div class="glow-circle glow-1"></div>
+    <div class="glow-circle glow-2"></div>
 </div>
 
 <div class="app">
 
-<!-- HEADER -->
-
+<!-- HEADER - DASHBOARD STYLE -->
 <div class="header">
-
-<button class="back-btn" onclick="goBack()">
-←
-</button>
-
-<img 
-src="https://b.top4top.io/p_3651j7eif2.jpg"
-class="profile"
->
-
-<div class="header-text">
-<h1>AkiraAi</h1>
-<p>AI Assistant By ReyCloudDev</p>
-</div>
-
+    <div class="header-left">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="brand">
+            <div class="brand-logo">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <div class="brand-text">
+                <h1>RevinzaAi</h1>
+                <p>AI Assistant</p>
+            </div>
+        </div>
+    </div>
+    <div class="header-right">
+        <div class="status-badge">
+            <i class="fa-solid fa-circle"></i>
+            <span>Online</span>
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
 </div>
 
 <!-- CHAT -->
-
-<div class="chat" id="chat"></div>
-
-<!-- INPUT -->
-
-<div class="input-area">
-
-<div class="input-box">
-<input 
-type="text" 
-id="text"
-placeholder="Tanya sesuatu..."
-autocomplete="off"
->
+<div class="chat" id="chat">
+    <div class="welcome-msg">
+        <div class="icon"><i class="fa-solid fa-robot"></i></div>
+        <h2>Halo! Saya RevinzaAi</h2>
+        <p>Asisten AI yang siap membantu kamu. Tanya apa saja, saya akan jawab sebaik mungkin!</p>
+    </div>
 </div>
 
-<button class="send" onclick="sendMessage()">
-Kirim
-</button>
-
+<!-- INPUT - DASHBOARD STYLE -->
+<div class="input-area">
+    <div class="input-box">
+        <input 
+            type="text" 
+            id="text"
+            placeholder="Tanya sesuatu..."
+            autocomplete="off"
+        >
+    </div>
+    <button class="send" onclick="sendMessage()">
+        <i class="fa-solid fa-paper-plane"></i>
+        Kirim
+    </button>
 </div>
 
 </div>
@@ -357,9 +502,9 @@ Kirim
 const chat = document.getElementById("chat");
 
 const SYSTEM_PROMPT = `
-Nama mu adalah Akira, kamu adalah asisten kecerdasan buatan yang sering membantu orang lain jika ada yang ditanyakan, dan kamu di buat oleh ReyCloudDev.
+Nama mu adalah Revinza, kamu adalah asisten kecerdasan buatan yang sering membantu orang lain jika ada yang ditanyakan, dan kamu di buat oleh Revinza.
 
-Tambahkan tulisan AkiraAi di paling atas tanpa gerak sama sekali.
+Tambahkan tulisan RevinzaAi di paling atas tanpa gerak sama sekali.
 
 Untuk jawaban dibawah gunakan format seperti ini:
 *jawaban*
@@ -369,146 +514,129 @@ Jangan hilangkan tanda bintang yang ada.
 Untuk jarak atas bawah berikan 2 langkah.
 `;
 
+// ==================== THEME ====================
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    const icon = document.getElementById('themeIcon');
+    if(icon) {
+        icon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    }
+}
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const html = document.documentElement;
+    
+    html.setAttribute('data-theme', savedTheme);
+    const icon = document.getElementById('themeIcon');
+    if(icon) {
+        icon.className = savedTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    }
+}
+
 function goBack(){
-
-window.location.href = "/";
-
-/*
-Kalau mau balik ke halaman sebelumnya:
-window.history.back();
-*/
-
+    window.location.href = "/";
 }
 
 function scrollBottom(){
-
-setTimeout(()=>{
-
-chat.scrollTo({
-top:chat.scrollHeight,
-behavior:"smooth"
-});
-
-},100);
-
+    setTimeout(()=>{
+        chat.scrollTo({
+            top:chat.scrollHeight,
+            behavior:"smooth"
+        });
+    },100);
 }
 
 function addMessage(text,type){
-
-const div = document.createElement("div");
-
-div.className = `msg ${type}`;
-
-div.innerText = text;
-
-chat.appendChild(div);
-
-scrollBottom();
-
+    const div = document.createElement("div");
+    div.className = `msg ${type}`;
+    div.innerText = text;
+    chat.appendChild(div);
+    scrollBottom();
 }
 
 function addTyping(){
-
-const div = document.createElement("div");
-
-div.className = "msg bot typing-box";
-
-div.innerHTML = `
-<div class="typing">
-<span></span>
-<span></span>
-<span></span>
-</div>
-`;
-
-chat.appendChild(div);
-
-scrollBottom();
-
+    const div = document.createElement("div");
+    div.className = "msg typing-box";
+    div.innerHTML = `
+        <div class="typing">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+    chat.appendChild(div);
+    scrollBottom();
 }
 
 async function sendMessage(){
-
-const input = document.getElementById("text");
-
-const text = input.value.trim();
-
-if(!text) return;
-
-addMessage(text,"user");
-
-input.value = "";
-
-addTyping();
-
-try{
-
-const response = await fetch(
-`https://api.nexray.eu.cc/ai/gemini?text=${encodeURIComponent(SYSTEM_PROMPT + "\nUser: " + text)}`
-);
-
-const data = await response.json();
-
-console.log(data);
-
-document.querySelector(".typing-box").remove();
-
-let reply =
-data.result ||
-data.answer ||
-data.message ||
-JSON.stringify(data);
-
-reply = reply.replace(/`/g,"");
-
-addMessage(reply,"bot");
-
-}catch(err){
-
-document.querySelector(".typing-box").remove();
-
-addMessage("Error jir","bot");
-
-console.error(err);
-
+    const input = document.getElementById("text");
+    const text = input.value.trim();
+    
+    if(!text) return;
+    
+    addMessage(text,"user");
+    input.value = "";
+    
+    addTyping();
+    
+    try{
+        const response = await fetch(
+            `https://api.nexray.eu.cc/ai/gemini?text=${encodeURIComponent(SYSTEM_PROMPT + "\\nUser: " + text)}`
+        );
+        
+        const data = await response.json();
+        
+        console.log(data);
+        
+        document.querySelector(".typing-box").remove();
+        
+        let reply =
+            data.result ||
+            data.answer ||
+            data.message ||
+            JSON.stringify(data);
+        
+        reply = reply.replace(/`/g,"");
+        
+        addMessage(reply,"bot");
+        
+    }catch(err){
+        document.querySelector(".typing-box").remove();
+        addMessage("Maaf, terjadi kesalahan. Coba lagi nanti.","bot");
+        console.error(err);
+    }
 }
 
-}
-
-document
-.getElementById("text")
-.addEventListener("keypress",function(e){
-
-if(e.key === "Enter"){
-sendMessage();
-}
-
+// Enter key
+document.getElementById("text").addEventListener("keypress",function(e){
+    if(e.key === "Enter"){
+        sendMessage();
+    }
 });
 
-/* AUTO SCROLL PAS KEYBOARD */
-
-const input = document.getElementById("text");
-
-input.addEventListener("focus",()=>{
-
-setTimeout(()=>{
-
-scrollBottom();
-
-},300);
-
+// Auto scroll pas keyboard muncul
+const inputEl = document.getElementById("text");
+inputEl.addEventListener("focus",()=>{
+    setTimeout(()=>{
+        scrollBottom();
+    },300);
 });
 
-/* FIX VIEWPORT MOBILE */
-
+// Fix viewport mobile
 window.visualViewport.addEventListener("resize",()=>{
-
-document.body.style.height =
-window.visualViewport.height + "px";
-
-scrollBottom();
-
+    document.body.style.height = window.visualViewport.height + "px";
+    scrollBottom();
 });
+
+// INIT
+loadTheme();
 
 </script>
 
