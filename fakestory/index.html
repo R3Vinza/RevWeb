@@ -1,131 +1,413 @@
-<!DOCTYPE html>
-<html lang="id">
+ <!DOCTYPE html>
+<html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Fake Story IG</title>
-
+<title>Fake Story IG - RevinzaDesigner</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root{
-    --bg:#0f0f0f;
-    --card:#1a1a1a;
-    --input:#2a2a2a;
-    --border:#333;
-    --primary:#ff006a;
-    --text:#ffffff;
-    --muted:#b5b5b5;
+    --bg:#0f172a;
+    --card:#1e293b;
+    --primary:#8b5cf6;
+    --secondary:#ec4899;
+    --text:#f8fafc;
+    --soft:#94a3b8;
+    --border:rgba(0,0,0,.3);
+    --shadow:rgba(0,0,0,.3);
+    --input-bg:rgba(255,255,255,.06);
+    --ff-orange:#ff9800;
+    --ff-orange-dark:#f57c00;
+    --success:#22c55e;
+    --danger:#ef4444;
+}
+
+[data-theme="light"]{
+    --bg:#f5f5f0;
+    --card:#ffffff;
+    --primary:#8b5cf6;
+    --secondary:#ec4899;
+    --text:#1a1a1a;
+    --soft:#666666;
+    --border:rgba(0,0,0,.15);
+    --shadow:rgba(0,0,0,.15);
+    --input-bg:rgba(0,0,0,.04);
+    --ff-orange:#ff9800;
+    --ff-orange-dark:#f57c00;
+    --success:#16a34a;
+    --danger:#dc2626;
 }
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family:'Segoe UI',sans-serif;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 body{
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
+    padding-bottom:40px;
+}
+
+/* TOAST NOTIFICATION */
+.toast-container{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:9999;
     display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
+    flex-direction:column;
+    gap:10px;
+    pointer-events:none;
 }
 
-.container{
-    width:100%;
-    max-width:420px;
+.toast{
     background:var(--card);
-    border:1px solid var(--border);
-    border-radius:22px;
-    padding:24px;
-    box-shadow:0 0 20px rgba(0,0,0,0.3);
+    border:2px solid var(--border);
+    border-radius:16px;
+    padding:14px 20px;
+    box-shadow:0 6px 0 var(--shadow), 0 10px 30px rgba(0,0,0,.4);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:14px;
+    font-weight:600;
+    animation:toastSlide .3s ease, toastFade 3s ease 2s forwards;
+    pointer-events:auto;
+    min-width:280px;
 }
 
-.top-bar{
+.toast.success{
+    border-color:var(--success);
+}
+
+.toast.success i{
+    color:var(--success);
+    font-size:20px;
+}
+
+.toast.error{
+    border-color:var(--danger);
+}
+
+.toast.error i{
+    color:var(--danger);
+    font-size:20px;
+}
+
+@keyframes toastSlide{
+    from{opacity:0;transform:translateY(-20px) scale(.9);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+@keyframes toastFade{
+    to{opacity:0;transform:translateY(-10px);}
+}
+
+/* BACKGROUND GLOW */
+.bg-glow{
+    position:fixed;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:-1;
+    pointer-events:none;
+}
+
+.glow-circle{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.12;
+}
+
+.glow-1{
+    width:400px;
+    height:400px;
+    background:var(--ff-orange);
+    top:-150px;
+    left:-150px;
+}
+
+.glow-2{
+    width:350px;
+    height:350px;
+    background:var(--primary);
+    bottom:-150px;
+    right:-150px;
+}
+
+/* HEADER */
+.header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
+    padding:15px 20px;
+    position:relative;
 }
 
-.title{
-    font-size:24px;
-    font-weight:bold;
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.dashboard-btn{
+.back-btn{
+    width:40px;
+    height:40px;
+    border-radius:14px;
+    border:2px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 4px 0 var(--shadow), 0 6px 15px var(--shadow);
+    transition:.2s;
     text-decoration:none;
+    flex-shrink:0;
+}
+
+.back-btn:active{
+    transform:translateY(4px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.brand-logo{
+    width:40px;
+    height:40px;
+    border-radius:14px;
+    background:linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
     color:white;
-    background:#252525;
-    border:1px solid var(--border);
-    padding:10px 14px;
-    border-radius:12px;
-    font-size:14px;
-    transition:0.2s;
+    box-shadow:0 4px 15px rgba(255,152,0,.3);
+    overflow:hidden;
+    flex-shrink:0;
 }
 
-.dashboard-btn:hover{
-    background:#303030;
+.brand-text h1{
+    font-size:18px;
+    font-weight:700;
 }
 
-.description{
-    font-size:14px;
-    color:var(--muted);
-    margin-bottom:20px;
+.brand-text p{
+    font-size:11px;
+    color:var(--soft);
+}
+
+.header-right{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.theme-btn{
+    width:40px;
+    height:40px;
+    border-radius:14px;
+    border:2px solid var(--border);
+    background:linear-gradient(135deg, #f59e0b, #d97706);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    cursor:pointer;
+    box-shadow:0 4px 0 rgba(0,0,0,.3), 0 6px 15px rgba(0,0,0,.3);
+    transition:.2s;
+    flex-shrink:0;
+}
+
+.theme-btn:active{
+    transform:translateY(4px);
+    box-shadow:0 0 0 rgba(0,0,0,.3), 0 2px 5px rgba(0,0,0,.3);
+}
+
+/* MAIN CONTENT */
+.container{
+    max-width:480px;
+    margin:0 auto;
+    padding:0 16px;
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    margin-bottom:16px;
+    padding:10px 0;
+}
+
+.hero .icon{
+    width:50px;
+    height:50px;
+    border-radius:18px;
+    background:linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    color:white;
+    margin:0 auto 10px;
+    box-shadow:0 4px 0 var(--shadow), 0 6px 15px rgba(255,152,0,.3);
+    border:2px solid var(--border);
+}
+
+.hero h1{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:4px;
+}
+
+.hero p{
+    font-size:13px;
+    color:var(--soft);
     line-height:1.5;
 }
 
-.input-box{
+/* DASHBOARD CARD */
+.dashboard-card{
+    padding:16px;
     margin-bottom:16px;
 }
 
-.input-box label{
-    display:block;
-    margin-bottom:8px;
-    font-size:14px;
-    font-weight:bold;
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+    margin-bottom:16px;
 }
 
-.input-box input,
-.input-box textarea{
+.stat-box{
+    padding:12px 8px;
+    text-align:center;
+    border-radius:16px;
+    background:var(--card);
+    border:2px solid var(--border);
+    box-shadow:0 4px 0 var(--shadow), 0 6px 15px var(--shadow);
+    transition:.2s;
+}
+
+.stat-box:active{
+    transform:translateY(4px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
+}
+
+.stat-box i{
+    font-size:18px;
+    color:var(--ff-orange);
+    margin-bottom:6px;
+    display:block;
+}
+
+.stat-box h2{
+    font-size:18px;
+    font-weight:700;
+    color:var(--ff-orange);
+}
+
+.stat-box p{
+    color:var(--soft);
+    font-size:11px;
+    margin-top:2px;
+}
+
+/* INPUT */
+.input-group{
+    margin-bottom:12px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:6px;
+    color:var(--soft);
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.input-group label i{
+    color:var(--ff-orange);
+    margin-right:6px;
+    font-size:12px;
+}
+
+.input-group input,
+.input-group textarea{
     width:100%;
-    background:var(--input);
-    color:white;
-    border:1px solid transparent;
+    padding:12px 14px;
+    border:2px solid var(--border);
     outline:none;
     border-radius:14px;
-    padding:13px;
+    background:var(--input-bg);
+    color:var(--text);
     font-size:14px;
-    transition:0.2s;
+    box-shadow:inset 0 2px 4px rgba(0,0,0,.05);
+    transition:.2s;
+    font-family:'Segoe UI',sans-serif;
 }
 
-.input-box input:focus,
-.input-box textarea:focus{
-    border-color:var(--primary);
+.input-group input:focus,
+.input-group textarea:focus{
+    border-color:var(--ff-orange);
+    box-shadow:0 0 10px rgba(255,152,0,.2), inset 0 2px 4px rgba(0,0,0,.05);
 }
 
-textarea{
+.input-group input::placeholder,
+.input-group textarea::placeholder{
+    color:var(--soft);
+    opacity:.6;
+}
+
+.input-group textarea{
     resize:none;
     min-height:100px;
 }
 
+/* GENERATE BUTTON */
 .generate-btn{
     width:100%;
     border:none;
-    background:var(--primary);
-    color:white;
     padding:14px;
-    border-radius:14px;
+    border-radius:16px;
+    background:linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
+    color:white;
     font-size:15px;
-    font-weight:bold;
+    font-weight:700;
     cursor:pointer;
-    transition:0.2s;
+    box-shadow:0 4px 0 var(--shadow), 0 6px 20px rgba(255,152,0,.4);
+    border:2px solid var(--border);
+    transition:.2s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
 }
 
-.generate-btn:hover{
-    opacity:0.85;
+.generate-btn:active{
+    transform:translateY(4px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px rgba(255,152,0,.3);
+}
+
+.generate-btn i{
+    font-size:16px;
 }
 
 .generate-btn:disabled{
@@ -133,95 +415,432 @@ textarea{
     cursor:not-allowed;
 }
 
+/* LOADING */
+.loading{
+    display:none;
+    margin-top:12px;
+    text-align:center;
+    color:var(--ff-orange);
+    font-weight:700;
+    font-size:13px;
+}
+
+.loading i{
+    animation:spin 1s linear infinite;
+    margin-right:6px;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+/* RESULT */
 .result{
     display:none;
-    margin-top:22px;
+    margin-top:16px;
 }
 
 .result img{
     width:100%;
     border-radius:18px;
-    border:1px solid var(--border);
+    border:2px solid var(--border);
+    box-shadow:0 4px 0 var(--shadow), 0 6px 15px var(--shadow);
 }
 
-.loading{
+/* SAVE BUTTON */
+.save-btn-container{
     display:none;
-    margin-top:15px;
+    margin-top:12px;
     text-align:center;
-    color:var(--muted);
+}
+
+.save-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    padding:10px 20px;
+    border-radius:14px;
+    border:2px solid var(--border);
+    background:linear-gradient(135deg, var(--primary), var(--secondary));
+    color:white;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 4px 0 var(--shadow), 0 6px 15px rgba(0,0,0,.3);
+}
+
+.save-btn:hover{
+    background:linear-gradient(135deg, var(--secondary), var(--primary));
+}
+
+.save-btn:active{
+    transform:translateY(4px);
+    box-shadow:0 0 0 var(--shadow), 0 2px 5px rgba(0,0,0,.3);
+}
+
+.save-btn i{
     font-size:14px;
 }
+
+/* FOOTER */
+.footer{
+    text-align:center;
+    color:var(--soft);
+    margin-top:20px;
+    padding-bottom:20px;
+    font-size:12px;
+}
+
+.footer i{
+    color:var(--ff-orange);
+}
+
+/* RESPONSIVE */
+@media(max-width:400px){
+    .stats{
+        gap:8px;
+    }
+    .stat-box h2{
+        font-size:16px;
+    }
+}
+
 </style>
 </head>
 <body>
 
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- BACKGROUND GLOW -->
+<div class="bg-glow">
+    <div class="glow-circle glow-1"></div>
+    <div class="glow-circle glow-2"></div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-left">
+        <a href="/" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div class="brand">
+            <div class="brand-logo">
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+            <div class="brand-text">
+                <h1>Fake Story</h1>
+                <p>Instagram</p>
+            </div>
+        </div>
+    </div>
+    <div class="header-right">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
 <div class="container">
 
-    <div class="top-bar">
-        <div class="title">Fake Story IG</div>
-
-        <a href="/" class="dashboard-btn">
-            Back Dashboard
-        </a>
+    <!-- HERO -->
+    <div class="hero">
+        <div class="icon"><i class="fa-brands fa-instagram"></i></div>
+        <h1>Fake Story IG</h1>
+        <p>Bikin fake story Instagram otomatis. Jangan typo username, nanti malah jadi akun NPC.</p>
     </div>
 
-    <p class="description">
-        Bikin fake story IG otomatis. Jangan typo username, nanti malah jadi akun NPC.
-    </p>
+    <!-- DASHBOARD CARD -->
+    <div class="dashboard-card card-upin">
 
-    <div class="input-box">
-        <label>Username</label>
-        <input 
-            type="text" 
-            id="username" 
-            placeholder="contoh: reycloud"
-        >
+        <!-- STATS -->
+        <div class="stats">
+            <div class="stat-box">
+                <i class="fa-solid fa-image"></i>
+                <h2>1x</h2>
+                <p>Output</p>
+            </div>
+            <div class="stat-box">
+                <i class="fa-solid fa-high-definition"></i>
+                <h2>HD</h2>
+                <p>Quality</p>
+            </div>
+            <div class="stat-box">
+                <i class="fa-solid fa-bolt"></i>
+                <h2>FAST</h2>
+                <p>Generate</p>
+            </div>
+        </div>
+
+        <!-- INPUT -->
+        <div class="input-group">
+            <label><i class="fa-solid fa-at"></i> Username Instagram</label>
+            <input 
+                type="text" 
+                id="username" 
+                placeholder="contoh: reycloud"
+            >
+        </div>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-comment"></i> Caption Story</label>
+            <textarea 
+                id="caption" 
+                placeholder="caption story..."
+            ></textarea>
+        </div>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-image"></i> Foto Profil</label>
+            <input 
+                type="file" 
+                id="profileFile" 
+                accept="image/*"
+                style="display:none;"
+                onchange="handleFileSelect(event)"
+            >
+            <div 
+                id="profileUrlInput"
+                style="display:flex; gap:8px; align-items:center;"
+            >
+                <input 
+                    type="text" 
+                    id="profileUrl" 
+                    placeholder="https://example.com/foto.jpg"
+                    style="flex:1;"
+                >
+                <button 
+                    type="button"
+                    onclick="document.getElementById('profileFile').click()"
+                    style="
+                        width:44px; height:44px; border-radius:14px; border:2px solid var(--border);
+                        background:var(--card); color:var(--text); display:flex; align-items:center;
+                        justify-content:center; cursor:pointer; box-shadow:0 4px 0 var(--shadow);
+                        transition:.2s; flex-shrink:0;
+                    "
+                    onmousedown="this.style.transform='translateY(4px)'; this.style.boxShadow='0 0 0 var(--shadow), 0 2px 5px var(--shadow)';"
+                    onmouseup="this.style.transform=''; this.style.boxShadow='0 4px 0 var(--shadow)';"
+                    onmouseleave="this.style.transform=''; this.style.boxShadow='0 4px 0 var(--shadow)';"
+                >
+                    <i class="fa-solid fa-images" style="font-size:16px; color:var(--ff-orange);"></i>
+                </button>
+            </div>
+            <div 
+                id="filePreview" 
+                style="
+                    display:none; margin-top:8px; padding:8px 12px; border-radius:12px;
+                    background:var(--input-bg); border:2px solid var(--border); font-size:13px;
+                    color:var(--soft); align-items:center; gap:8px;
+                "
+            >
+                <i class="fa-solid fa-check-circle" style="color:var(--success);"></i>
+                <span id="fileName" style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></span>
+                <button 
+                    type="button"
+                    onclick="clearFile()"
+                    style="
+                        background:none; border:none; color:var(--danger); cursor:pointer;
+                        font-size:14px; padding:2px;
+                    "
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- BUTTON -->
+        <button class="generate-btn" id="generateBtn" onclick="generateStory()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Generate Story
+        </button>
+
+        <!-- LOADING -->
+        <div class="loading" id="loading">
+            <i class="fa-solid fa-spinner"></i>
+            Generating story...
+        </div>
+
     </div>
 
-    <div class="input-box">
-        <label>Caption</label>
-        <textarea 
-            id="caption" 
-            placeholder="caption story..."
-        ></textarea>
-    </div>
-
-    <div class="input-box">
-        <label>URL Foto Profil</label>
-        <input 
-            type="text" 
-            id="profile" 
-            placeholder="https://example.com/foto.jpg"
-        >
-    </div>
-
-    <button class="generate-btn" id="generateBtn" onclick="generateStory()">
-        Generate Story
-    </button>
-
-    <div class="loading" id="loading">
-        Generating story...
-    </div>
-
+    <!-- RESULT -->
     <div class="result" id="result">
         <img id="storyImg" alt="Fake Story Result">
+        <div class="save-btn-container" id="saveBtnContainer">
+            <button class="save-btn" id="saveBtn" onclick="saveStory()">
+                <i class="fa-solid fa-download"></i>
+                Simpan ke Galeri
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <i class="fa-solid fa-code"></i> RevinzaDesigner
     </div>
 
 </div>
 
 <script>
+
+let selectedFile = null;
+let selectedFileDataUrl = null;
+
+// ==================== FILE UPLOAD ====================
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    if (!file.type.startsWith('image/')) {
+        showToast('File harus berupa gambar!', 'error');
+        return;
+    }
+    
+    selectedFile = file;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        selectedFileDataUrl = e.target.result;
+        document.getElementById('fileName').textContent = file.name;
+        document.getElementById('filePreview').style.display = 'flex';
+        document.getElementById('profileUrl').value = '';
+        document.getElementById('profileUrl').placeholder = 'Menggunakan file dari galeri...';
+    };
+    reader.readAsDataURL(file);
+}
+
+function clearFile() {
+    selectedFile = null;
+    selectedFileDataUrl = null;
+    document.getElementById('profileFile').value = '';
+    document.getElementById('filePreview').style.display = 'none';
+    document.getElementById('profileUrl').value = '';
+    document.getElementById('profileUrl').placeholder = 'https://example.com/foto.jpg';
+}
+
+// ==================== TOAST NOTIFICATION ====================
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    
+    const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark';
+    
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <i class="fa-solid ${icon}"></i>
+        <span>${message}</span>
+    `;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
+}
+
+// ==================== THEME ====================
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    const icon = document.getElementById('themeIcon');
+    if(icon) {
+        icon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    }
+}
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const html = document.documentElement;
+    
+    html.setAttribute('data-theme', savedTheme);
+    const icon = document.getElementById('themeIcon');
+    if(icon) {
+        icon.className = savedTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    }
+}
+
+// ==================== AUTO SAVE TO GALLERY ====================
+async function autoSaveToGallery(imageUrl, fileName) {
+    try {
+        const response = await fetch(imageUrl);
+        if (!response.ok) throw new Error('Network error');
+        const blob = await response.blob();
+        
+        const file = new File([blob], fileName, { type: 'image/jpeg' });
+        
+        // Try Web Share API first (mobile)
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+                files: [file],
+                title: 'Fake Story IG',
+                text: 'Story IG dari Fake Story Generator'
+            });
+            showToast('Story berhasil dibagikan!', 'success');
+            return;
+        }
+        
+        // Fallback: Auto download
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showToast('Story tersimpan di Downloads!', 'success');
+        
+    } catch (error) {
+        console.error('Auto save error:', error);
+        // Fallback: Direct download
+        const a = document.createElement('a');
+        a.href = imageUrl;
+        a.download = fileName;
+        a.click();
+        showToast('Story di-download!', 'success');
+    }
+}
+
+// ==================== MANUAL SAVE ====================
+async function saveStory() {
+    const storyImg = document.getElementById("storyImg");
+    const username = document.getElementById("username").value.trim();
+    
+    if (!storyImg.src) return;
+    
+    const fileName = `fake-story-${username}-${Date.now()}.jpg`;
+    await autoSaveToGallery(storyImg.src, fileName);
+}
+
+// ==================== GENERATE STORY ====================
 async function generateStory() {
     const username = document.getElementById("username").value.trim();
     const caption = document.getElementById("caption").value.trim();
-    const profile = document.getElementById("profile").value.trim();
+    const profileUrl = document.getElementById("profileUrl").value.trim();
 
     const result = document.getElementById("result");
     const storyImg = document.getElementById("storyImg");
     const loading = document.getElementById("loading");
     const button = document.getElementById("generateBtn");
+    const saveBtnContainer = document.getElementById("saveBtnContainer");
 
-    if (!username || !caption || !profile) {
-        alert("Isi semuanya dulu. Masa form kosong berharap mukjizat.");
+    if (!username || !caption) {
+        showToast('Isi username dan caption dulu!', 'error');
+        return;
+    }
+
+    if (!profileUrl && !selectedFileDataUrl) {
+        showToast('Masukkan URL foto atau upload dari galeri!', 'error');
         return;
     }
 
@@ -229,32 +848,48 @@ async function generateStory() {
         button.disabled = true;
         loading.style.display = "block";
         result.style.display = "none";
+        saveBtnContainer.style.display = "none";
 
-        const apiUrl =
-            `https://api.nexray.eu.cc/maker/fakestory?username=${encodeURIComponent(username)}&caption=${encodeURIComponent(caption)}&avatar=${encodeURIComponent(profile)}`;
+        let apiUrl;
+        
+        if (selectedFileDataUrl) {
+            // Upload file ke server dulu, lalu pakai URL-nya
+            // Karena API butuh URL, kita encode base64 sebagai data URL
+            apiUrl = `https://api.nexray.eu.cc/maker/fakestory?username=${encodeURIComponent(username)}&caption=${encodeURIComponent(caption)}&avatar=${encodeURIComponent(selectedFileDataUrl)}`;
+        } else {
+            apiUrl = `https://api.nexray.eu.cc/maker/fakestory?username=${encodeURIComponent(username)}&caption=${encodeURIComponent(caption)}&avatar=${encodeURIComponent(profileUrl)}`;
+        }
 
         storyImg.src = apiUrl;
 
         storyImg.onload = () => {
             loading.style.display = "none";
             result.style.display = "block";
+            saveBtnContainer.style.display = "block";
             button.disabled = false;
+            
+            // AUTO SAVE: langsung simpan ke galeri saat gambar berhasil load
+            const fileName = `fake-story-${username}-${Date.now()}.jpg`;
+            autoSaveToGallery(apiUrl, fileName);
         };
 
         storyImg.onerror = () => {
             loading.style.display = "none";
             button.disabled = false;
-            alert("Gagal generate image. Cek lagi URL fotonya, jangan ngasal comot.");
+            showToast('Gagal generate image. Cek lagi fotonya, jangan ngasal comot.', 'error');
         };
 
     } catch (err) {
         loading.style.display = "none";
         button.disabled = false;
-
-        alert("Terjadi error.");
+        showToast('Terjadi error.', 'error');
         console.error(err);
     }
 }
+
+// INIT
+loadTheme();
+
 </script>
 
 </body>
