@@ -1,595 +1,476 @@
  <!DOCTYPE html>
 <html lang="id" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fake Lobby FF - RevinzaDesigner</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-:root{
-    --bg:#0f172a;
-    --card:#1e293b;
-    --primary:#8b5cf6;
-    --secondary:#ec4899;
-    --text:#f8fafc;
-    --soft:#94a3b8;
-    --border:rgba(0,0,0,.3);
-    --shadow:rgba(0,0,0,.3);
-    --input-bg:rgba(255,255,255,.06);
-    --ff-orange:#ff9800;
-    --ff-orange-dark:#f57c00;
-    --success:#22c55e;
-}
-
-[data-theme="light"]{
-    --bg:#f5f5f0;
-    --card:#ffffff;
-    --primary:#8b5cf6;
-    --secondary:#ec4899;
-    --text:#1a1a1a;
-    --soft:#666666;
-    --border:rgba(0,0,0,.15);
-    --shadow:rgba(0,0,0,.15);
-    --input-bg:rgba(0,0,0,.04);
-    --ff-orange:#ff9800;
-    --ff-orange-dark:#f57c00;
-    --success:#16a34a;
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-body{
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
-    padding-bottom:40px;
-}
-
-/* TOAST NOTIFICATION */
-.toast-container{
-    position:fixed;
-    top:20px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:9999;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    pointer-events:none;
-}
-
-.toast{
-    background:var(--card);
-    border:2px solid var(--border);
-    border-radius:16px;
-    padding:14px 20px;
-    box-shadow:0 6px 0 var(--shadow), 0 10px 30px rgba(0,0,0,.4);
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-size:14px;
-    font-weight:600;
-    animation:toastSlide .3s ease, toastFade 3s ease 2s forwards;
-    pointer-events:auto;
-    min-width:280px;
-}
-
-.toast.success{
-    border-color:var(--success);
-}
-
-.toast.success i{
-    color:var(--success);
-    font-size:20px;
-}
-
-.toast.error{
-    border-color:var(--danger);
-}
-
-.toast.error i{
-    color:var(--danger);
-    font-size:20px;
-}
-
-@keyframes toastSlide{
-    from{opacity:0;transform:translateY(-20px) scale(.9);}
-    to{opacity:1;transform:translateY(0) scale(1);}
-}
-
-@keyframes toastFade{
-    to{opacity:0;transform:translateY(-10px);}
-}
-
-/* BACKGROUND GLOW */
-.bg-glow{
-    position:fixed;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    z-index:-1;
-    pointer-events:none;
-}
-
-.glow-circle{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(120px);
-    opacity:.12;
-}
-
-.glow-1{
-    width:400px;
-    height:400px;
-    background:var(--ff-orange);
-    top:-150px;
-    left:-150px;
-}
-
-.glow-2{
-    width:350px;
-    height:350px;
-    background:var(--primary);
-    bottom:-150px;
-    right:-150px;
-}
-
-/* HEADER */
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 20px;
-    position:relative;
-}
-
-.header-left{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.back-btn{
-    width:40px;
-    height:40px;
-    border-radius:14px;
-    border:2px solid var(--border);
-    background:var(--card);
-    color:var(--text);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
-    cursor:pointer;
-    box-shadow:0 4px 0 var(--shadow), 0 6px 15px var(--shadow);
-    transition:.2s;
-    text-decoration:none;
-    flex-shrink:0;
-}
-
-.back-btn:active{
-    transform:translateY(4px);
-    box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.brand-logo{
-    width:40px;
-    height:40px;
-    border-radius:14px;
-    background:linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-    color:white;
-    box-shadow:0 4px 15px rgba(255,152,0,.3);
-    overflow:hidden;
-    flex-shrink:0;
-}
-
-.brand-text h1{
-    font-size:18px;
-    font-weight:700;
-}
-
-.brand-text p{
-    font-size:11px;
-    color:var(--soft);
-}
-
-.header-right{
-    display:flex;
-    gap:8px;
-    align-items:center;
-}
-
-.theme-btn{
-    width:40px;
-    height:40px;
-    border-radius:14px;
-    border:2px solid var(--border);
-    background:linear-gradient(135deg, #f59e0b, #d97706);
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-    cursor:pointer;
-    box-shadow:0 4px 0 rgba(0,0,0,.3), 0 6px 15px rgba(0,0,0,.3);
-    transition:.2s;
-    flex-shrink:0;
-}
-
-.theme-btn:active{
-    transform:translateY(4px);
-    box-shadow:0 0 0 rgba(0,0,0,.3), 0 2px 5px rgba(0,0,0,.3);
-}
-
-/* MAIN CONTENT */
-.container{
-    max-width:480px;
-    margin:0 auto;
-    padding:0 16px;
-}
-
-/* HERO */
-.hero{
-    text-align:center;
-    margin-bottom:16px;
-    padding:10px 0;
-}
-
-.hero .icon{
-    width:50px;
-    height:50px;
-    border-radius:18px;
-    background:linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:24px;
-    color:white;
-    margin:0 auto 10px;
-    box-shadow:0 4px 0 var(--shadow), 0 6px 15px rgba(255,152,0,.3);
-    border:2px solid var(--border);
-}
-
-.hero h1{
-    font-size:22px;
-    font-weight:700;
-    margin-bottom:4px;
-}
-
-.hero p{
-    font-size:13px;
-    color:var(--soft);
-    line-height:1.5;
-}
-
-/* DASHBOARD CARD */
-.dashboard-card{
-    padding:16px;
-    margin-bottom:16px;
-}
-
-/* STATS */
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:10px;
-    margin-bottom:16px;
-}
-
-.stat-box{
-    padding:12px 8px;
-    text-align:center;
-    border-radius:16px;
-    background:var(--card);
-    border:2px solid var(--border);
-    box-shadow:0 4px 0 var(--shadow), 0 6px 15px var(--shadow);
-    transition:.2s;
-}
-
-.stat-box:active{
-    transform:translateY(4px);
-    box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
-}
-
-.stat-box i{
-    font-size:18px;
-    color:var(--ff-orange);
-    margin-bottom:6px;
-    display:block;
-}
-
-.stat-box h2{
-    font-size:18px;
-    font-weight:700;
-    color:var(--ff-orange);
-}
-
-.stat-box p{
-    color:var(--soft);
-    font-size:11px;
-    margin-top:2px;
-}
-
-/* INPUT */
-.input-group{
-    margin-bottom:12px;
-}
-
-.input-group label{
-    display:block;
-    margin-bottom:6px;
-    color:var(--soft);
-    font-size:12px;
-    font-weight:600;
-    text-transform:uppercase;
-    letter-spacing:1px;
-}
-
-.input-group label i{
-    color:var(--ff-orange);
-    margin-right:6px;
-    font-size:12px;
-}
-
-.input-group input{
-    width:100%;
-    padding:12px 14px;
-    border:2px solid var(--border);
-    outline:none;
-    border-radius:14px;
-    background:var(--input-bg);
-    color:var(--text);
-    font-size:14px;
-    box-shadow:inset 0 2px 4px rgba(0,0,0,.05);
-    transition:.2s;
-}
-
-.input-group input:focus{
-    border-color:var(--ff-orange);
-    box-shadow:0 0 10px rgba(255,152,0,.2), inset 0 2px 4px rgba(0,0,0,.05);
-}
-
-.input-group input::placeholder{
-    color:var(--soft);
-    opacity:.6;
-}
-
-/* GENERATE BUTTON */
-.generate-btn{
-    width:100%;
-    border:none;
-    padding:14px;
-    border-radius:16px;
-    background:linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
-    color:white;
-    font-size:15px;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:0 4px 0 var(--shadow), 0 6px 20px rgba(255,152,0,.4);
-    border:2px solid var(--border);
-    transition:.2s;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-}
-
-.generate-btn:active{
-    transform:translateY(4px);
-    box-shadow:0 0 0 var(--shadow), 0 2px 5px rgba(255,152,0,.3);
-}
-
-.generate-btn i{
-    font-size:16px;
-}
-
-/* LOADING */
-.loading{
-    display:none;
-    margin-top:12px;
-    text-align:center;
-    color:var(--ff-orange);
-    font-weight:700;
-    font-size:13px;
-}
-
-.loading i{
-    animation:spin 1s linear infinite;
-    margin-right:6px;
-}
-
-@keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
-
-/* GALLERY */
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:12px;
-    margin-bottom:20px;
-}
-
-/* CARDS */
-.card-upin{
-    background:var(--card);
-    border-radius:20px;
-    border:2px solid var(--border);
-    box-shadow:0 4px 0 var(--shadow), 0 6px 15px var(--shadow);
-    transition:.2s;
-    overflow:hidden;
-}
-
-.card-upin:active{
-    transform:translateY(4px);
-    box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
-}
-
-/* IMAGE CONTAINER */
-.img-container{
-    width:100%;
-    aspect-ratio:9/16;
-    max-height:280px;
-    overflow:hidden;
-    position:relative;
-}
-
-.card img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center top;
-    display:block;
-}
-
-/* SAVE BUTTON */
-.save-btn{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    padding:10px;
-    text-decoration:none;
-    color:white;
-    background:linear-gradient(135deg, var(--primary), var(--secondary));
-    font-weight:700;
-    font-size:12px;
-    border-top:2px solid var(--border);
-    transition:.2s;
-    cursor:pointer;
-    border:none;
-    width:100%;
-    outline:none;
-}
-
-.save-btn:hover{
-    background:linear-gradient(135deg, var(--secondary), var(--primary));
-}
-
-.save-btn:active{
-    transform:translateY(2px);
-}
-
-.save-btn i{
-    font-size:14px;
-}
-
-/* SHARE BUTTON */
-.share-btn{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    padding:8px 10px;
-    text-decoration:none;
-    color:var(--soft);
-    background:var(--input-bg);
-    font-weight:600;
-    font-size:11px;
-    border-top:1px solid var(--border);
-    transition:.2s;
-    cursor:pointer;
-    border:none;
-    width:100%;
-    outline:none;
-}
-
-.share-btn:hover{
-    color:var(--primary);
-    background:rgba(139,92,246,.1);
-}
-
-.share-btn i{
-    font-size:12px;
-}
-
-/* SHIMMER LOADING */
-.shimmer{
-    position:relative;
-    overflow:hidden;
-    background:var(--card);
-    width:100%;
-    aspect-ratio:9/16;
-    max-height:280px;
-}
-
-.shimmer::before{
-    content:'';
-    position:absolute;
-    top:0;
-    left:-150%;
-    width:80%;
-    height:100%;
-    background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,152,0,.15),
-        transparent
-    );
-    animation:shimmer 1.2s infinite;
-}
-
-@keyframes shimmer{
-    100%{left:200%;}
-}
-
-/* FOOTER */
-.footer{
-    text-align:center;
-    color:var(--soft);
-    margin-top:20px;
-    padding-bottom:20px;
-    font-size:12px;
-}
-
-.footer i{
-    color:var(--ff-orange);
-}
-
-/* RESPONSIVE */
-@media(max-width:400px){
-    .gallery{
-        grid-template-columns:1fr;
-    }
-    .stats{
-        gap:8px;
-    }
-    .stat-box h2{
-        font-size:16px;
-    }
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Lobby FF - RevinzaDesigner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --text: #f8fafc;
+            --soft: #94a3b8;
+            --border: rgba(0,0,0,.3);
+            --shadow: rgba(0,0,0,.3);
+            --input-bg: rgba(255,255,255,.06);
+            --ff-orange: #ff9800;
+            --ff-orange-dark: #f57c00;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f5f0;
+            --card: #ffffff;
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --text: #1a1a1a;
+            --soft: #666666;
+            --border: rgba(0,0,0,.15);
+            --shadow: rgba(0,0,0,.15);
+            --input-bg: rgba(0,0,0,.04);
+            --ff-orange: #ff9800;
+            --ff-orange-dark: #f57c00;
+            --success: #16a34a;
+            --danger: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 20px;
+            box-shadow: 0 6px 0 var(--shadow), 0 10px 30px rgba(0,0,0,.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            animation: toastSlide .3s ease, toastFade 3s ease 2s forwards;
+            pointer-events: auto;
+            min-width: 280px;
+        }
+
+        .toast.success { border-color: var(--success); }
+        .toast.success i { color: var(--success); font-size: 20px; }
+        .toast.error { border-color: var(--danger); }
+        .toast.error i { color: var(--danger); font-size: 20px; }
+
+        @keyframes toastSlide {
+            from { opacity: 0; transform: translateY(-20px) scale(.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes toastFade {
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* BACKGROUND GLOW */
+        .bg-glow {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glow-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: .12;
+        }
+
+        .glow-1 { width: 400px; height: 400px; background: var(--ff-orange); top: -150px; left: -150px; }
+        .glow-2 { width: 350px; height: 350px; background: var(--primary); bottom: -150px; right: -150px; }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            position: relative;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--shadow), 0 6px 15px var(--shadow);
+            transition: .2s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .back-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 var(--shadow), 0 2px 5px var(--shadow);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255,152,0,.3);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .brand-text h1 { font-size: 18px; font-weight: 700; }
+        .brand-text p { font-size: 11px; color: var(--soft); }
+
+        .header-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            border: 2px solid var(--border);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0,0,0,.3), 0 6px 15px rgba(0,0,0,.3);
+            transition: .2s;
+            flex-shrink: 0;
+        }
+
+        .theme-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 rgba(0,0,0,.3), 0 2px 5px rgba(0,0,0,.3);
+        }
+
+        /* MAIN CONTENT */
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            margin-bottom: 16px;
+            padding: 10px 0;
+        }
+
+        .hero .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 0 var(--shadow), 0 6px 15px rgba(255,152,0,.3);
+            border: 2px solid var(--border);
+        }
+
+        .hero h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+        .hero p { font-size: 13px; color: var(--soft); line-height: 1.5; }
+
+        /* DASHBOARD CARD */
+        .dashboard-card {
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-box {
+            padding: 12px 8px;
+            text-align: center;
+            border-radius: 16px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 0 var(--shadow), 0 6px 15px var(--shadow);
+            transition: .2s;
+        }
+
+        .stat-box:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 var(--shadow), 0 2px 5px var(--shadow);
+        }
+
+        .stat-box i { font-size: 18px; color: var(--ff-orange); margin-bottom: 6px; display: block; }
+        .stat-box h2 { font-size: 18px; font-weight: 700; color: var(--ff-orange); }
+        .stat-box p { color: var(--soft); font-size: 11px; margin-top: 2px; }
+
+        /* INPUT */
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--soft);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group label i { color: var(--ff-orange); margin-right: 6px; font-size: 12px; }
+        .input-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid var(--border);
+            outline: none;
+            border-radius: 14px;
+            background: var(--input-bg);
+            color: var(--text);
+            font-size: 14px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,.05);
+            transition: .2s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--ff-orange);
+            box-shadow: 0 0 10px rgba(255,152,0,.2), inset 0 2px 4px rgba(0,0,0,.05);
+        }
+
+        .input-group input::placeholder { color: var(--soft); opacity: .6; }
+
+        /* GENERATE BUTTON */
+        .generate-btn {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--shadow), 0 6px 20px rgba(255,152,0,.4);
+            border: 2px solid var(--border);
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .generate-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 var(--shadow), 0 2px 5px rgba(255,152,0,.3);
+        }
+
+        /* LOADING */
+        .loading {
+            display: none;
+            margin-top: 12px;
+            text-align: center;
+            color: var(--ff-orange);
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .loading i { animation: spin 1s linear infinite; margin-right: 6px; }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* GALLERY */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* CARDS */
+        .card-upin {
+            background: var(--card);
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 0 var(--shadow), 0 6px 15px var(--shadow);
+            transition: .2s;
+            overflow: hidden;
+        }
+
+        /* IMAGE CONTAINER */
+        .img-container {
+            width: 100%;
+            aspect-ratio: 9/16;
+            max-height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        /* SAVE BUTTON */
+        .save-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 12px 10px;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, var(--ff-orange), var(--ff-orange-dark));
+            font-weight: 700;
+            font-size: 13px;
+            border-top: 2px solid var(--border);
+            transition: .2s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            outline: none;
+        }
+
+        .save-btn:hover { opacity: 0.9; }
+        .save-btn:active { transform: translateY(2px); }
+
+        /* SHARE BUTTON */
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 10px;
+            text-decoration: none;
+            color: var(--soft);
+            background: var(--input-bg);
+            font-weight: 600;
+            font-size: 11px;
+            border-top: 1px solid var(--border);
+            transition: .2s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            outline: none;
+        }
+
+        .share-btn:hover { color: var(--primary); background: rgba(139,92,246,.1); }
+
+        /* SHIMMER LOADING */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+            background: var(--card);
+            width: 100%;
+            height: 100%;
+        }
+
+        .shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 80%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,152,0,.15), transparent);
+            animation: shimmer 1.2s infinite;
+        }
+
+        @keyframes shimmer { 100% { left: 200%; } }
+
+        /* FOOTER */
+        .footer { text-align: center; color: var(--soft); margin-top: 20px; padding-bottom: 20px; font-size: 12px; }
+        .footer i { color: var(--ff-orange); }
+
+        @media(max-width:400px){
+            .gallery { grid-template-columns: 1fr; }
+            .stats { gap: 8px; }
+            .stat-box h2 { font-size: 16px; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- TOAST CONTAINER -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- BACKGROUND GLOW -->
 <div class="bg-glow">
     <div class="glow-circle glow-1"></div>
     <div class="glow-circle glow-2"></div>
 </div>
 
-<!-- HEADER -->
 <div class="header">
     <div class="header-left">
         <a href="/" class="back-btn">
@@ -612,20 +493,14 @@ body{
     </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="container">
-
-    <!-- HERO -->
     <div class="hero">
         <div class="icon"><i class="fa-solid fa-fire"></i></div>
         <h1>Fake Lobby FF</h1>
         <p>Bikin lobby FF palsu 4 gambar sekaligus!</p>
     </div>
 
-    <!-- DASHBOARD CARD -->
     <div class="dashboard-card card-upin">
-
-        <!-- STATS -->
         <div class="stats">
             <div class="stat-box">
                 <i class="fa-solid fa-images"></i>
@@ -644,64 +519,40 @@ body{
             </div>
         </div>
 
-        <!-- INPUT -->
         <div class="input-group">
             <label><i class="fa-solid fa-user-tag"></i> Nickname Free Fire</label>
-            <input 
-                type="text" 
-                id="nickname" 
-                placeholder="Contoh: ReyCloudDev"
-            >
+            <input type="text" id="nickname" placeholder="Contoh: ReyCloudDev">
         </div>
 
-        <!-- BUTTON -->
         <button class="generate-btn" onclick="generateLobby()">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            Generate
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate
         </button>
 
-        <!-- LOADING -->
         <div class="loading" id="loading">
-            <i class="fa-solid fa-spinner"></i>
-            Lagi masak lobby...
+            <i class="fa-solid fa-spinner"></i> Lagi masak lobby...
         </div>
-
     </div>
 
-    <!-- GALLERY -->
     <div class="gallery" id="gallery"></div>
 
-    <!-- FOOTER -->
     <div class="footer">
         <i class="fa-solid fa-code"></i> RevinzaDesigner
     </div>
-
 </div>
 
 <script>
-
-// ==================== TOAST NOTIFICATION ====================
 function showToast(message, type = 'success') {
     const container = document.getElementById('toastContainer');
     const toast = document.createElement('div');
-    
     const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark';
     
     toast.className = `toast ${type}`;
-    toast.innerHTML = `
-        <i class="fa-solid ${icon}"></i>
-        <span>${message}</span>
-    `;
-    
+    toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
     container.appendChild(toast);
     
-    // Remove after animation
-    setTimeout(() => {
-        toast.remove();
-    }, 5000);
+    setTimeout(() => { toast.remove(); }, 4000);
 }
 
-// ==================== THEME ====================
 function toggleTheme() {
     const html = document.documentElement;
     const currentTheme = html.getAttribute('data-theme');
@@ -711,44 +562,25 @@ function toggleTheme() {
     localStorage.setItem('theme', newTheme);
     
     const icon = document.getElementById('themeIcon');
-    if(icon) {
-        icon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-    }
+    if(icon) { icon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'; }
 }
 
 function loadTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
-    const html = document.documentElement;
-    
-    html.setAttribute('data-theme', savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
     const icon = document.getElementById('themeIcon');
-    if(icon) {
-        icon.className = savedTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-    }
+    if(icon) { icon.className = savedTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'; }
 }
 
-// ==================== SAVE TO GALLERY ====================
+// ==================== TWEAKED: DOWNLOAD LANGSUNG KE GALERI ====================
 async function saveToGallery(imageUrl, fileName, index) {
+    showToast(`Mengunduh Gambar ${index}... silakan tunggu`, 'success');
     try {
-        // Fetch image as blob
         const response = await fetch(imageUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
         const blob = await response.blob();
         
-        // Create file from blob
-        const file = new File([blob], fileName, { type: 'image/jpeg' });
-        
-        // Try Web Share API first (mobile)
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-                files: [file],
-                title: 'Fake Lobby FF',
-                text: `Gambar ${index} dari Fake Lobby FF`
-            });
-            showToast(`Gambar ${index} berhasil dibagikan!`, 'success');
-            return;
-        }
-        
-        // Fallback: Auto download
+        // Memakai Blob URL bypass agar ter-download otomatis secara instan
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -756,23 +588,26 @@ async function saveToGallery(imageUrl, fileName, index) {
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
         
-        showToast(`Gambar ${index} tersimpan di Downloads!`, 'success');
-        
+        // Bersihkan element
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+
+        showToast(`Gambar ${index} berhasil disimpan! Cek Galeri/Downloads`, 'success');
     } catch (error) {
-        console.error('Save error:', error);
-        // Fallback: Direct download
+        console.error('Download error:', error);
+        // Fallback jika CORS bermasalah
         const a = document.createElement('a');
         a.href = imageUrl;
+        a.target = '_blank';
         a.download = fileName;
         a.click();
-        showToast(`Gambar ${index} di-download!`, 'success');
+        showToast(`Membuka gambar ${index}, tekan lama lalu simpan!`, 'success');
     }
 }
 
-// ==================== SHARE IMAGE ====================
 async function shareImage(imageUrl, fileName, index) {
     try {
         const response = await fetch(imageUrl);
@@ -783,27 +618,24 @@ async function shareImage(imageUrl, fileName, index) {
             await navigator.share({
                 files: [file],
                 title: 'Fake Lobby FF',
-                text: `Lihat gambar Fake Lobby FF ini!`
+                text: `Lihat hasil Fake Lobby Free Fire kece ini!`
             });
-            showToast('Berhasil dibagikan!', 'success');
         } else {
-            showToast('Browser tidak support share', 'error');
+            showToast('Browser tidak mendukung fitur share langsung', 'error');
         }
     } catch (error) {
         console.error('Share error:', error);
-        showToast('Gagal membagikan', 'error');
+        showToast('Gagal membagikan gambar', 'error');
     }
 }
 
-// ==================== GENERATE ====================
 async function generateLobby(){
-
     const nickname = document.getElementById("nickname").value.trim();
     const gallery = document.getElementById("gallery");
     const loading = document.getElementById("loading");
 
     if(!nickname){
-        alert("Nickname jangan kosong bang. Server bukan dukun.");
+        showToast("Nickname jangan kosong bang!", "error");
         return;
     }
 
@@ -811,8 +643,8 @@ async function generateLobby(){
     loading.style.display = "block";
 
     for(let i = 1; i <= 4; i++){
-
-        const api = `https://api.nexray.eu.cc/maker/fakelobyff?nickname=${encodeURIComponent(nickname)}&v=${i}&t=${Date.now()+i}`;
+        const timestamp = Date.now() + i;
+        const api = `https://api.nexray.eu.cc/maker/fakelobyff?nickname=${encodeURIComponent(nickname)}&v=${i}&t=${timestamp}`;
         const fileName = `fake-lobby-${nickname}-${i}.jpg`;
 
         const card = document.createElement("div");
@@ -821,30 +653,13 @@ async function generateLobby(){
         card.innerHTML = `
             <div class="img-container">
                 <div class="shimmer" id="shimmer-${i}"></div>
-                <img 
-                    src="${api}" 
-                    id="img-${i}"
-                    style="display:none;"
-                    alt="Fake Lobby ${i}"
-                >
+                <img src="${api}" id="img-${i}" style="display:none;" alt="Fake Lobby ${i}">
             </div>
-            <button 
-                class="save-btn" 
-                id="saveBtn-${i}"
-                style="display:none;"
-                onclick="saveToGallery('${api}', '${fileName}', ${i})"
-            >
-                <i class="fa-solid fa-download"></i>
-                Simpan ke Galeri
+            <button class="save-btn" id="saveBtn-${i}" style="display:none;" onclick="saveToGallery('${api}', '${fileName}', ${i})">
+                <i class="fa-solid fa-circle-down"></i> Simpan ke Galeri
             </button>
-            <button 
-                class="share-btn" 
-                id="shareBtn-${i}"
-                style="display:none;"
-                onclick="shareImage('${api}', '${fileName}', ${i})"
-            >
-                <i class="fa-solid fa-share-nodes"></i>
-                Bagikan
+            <button class="share-btn" id="shareBtn-${i}" style="display:none;" onclick="shareImage('${api}', '${fileName}', ${i})">
+                <i class="fa-solid fa-share-nodes"></i> Bagikan
             </button>
         `;
 
@@ -856,44 +671,32 @@ async function generateLobby(){
         const shareBtn = document.getElementById(`shareBtn-${i}`);
 
         img.onload = () => {
-            shimmer.remove();
+            if(shimmer) shimmer.remove();
             img.style.display = "block";
             saveBtn.style.display = "flex";
             shareBtn.style.display = "flex";
         }
 
         img.onerror = () => {
-            shimmer.innerHTML = `
-                <div style="
-                    display:flex;
-                    justify-content:center;
-                    align-items:center;
-                    height:100%;
-                    color:var(--soft);
-                    font-size:12px;
-                    padding:20px;
-                    text-align:center;
-                ">
-                    <i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i>
-                    Gagal load
-                </div>
-            `;
+            if(shimmer) {
+                shimmer.className = "";
+                shimmer.innerHTML = `
+                    <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%; color:var(--danger); font-size:12px; padding:20px; text-align:center; gap:8px;">
+                        <i class="fa-solid fa-circle-exclamation" style="font-size:24px;"></i>
+                        Gagal memuat gambar ${i}
+                    </div>
+                `;
+            }
         }
-
     }
 
     setTimeout(() => {
         loading.style.display = "none";
     }, 1000);
-
 }
 
 // INIT
 loadTheme();
-
 </script>
-
 </body>
 </html>
-
- 
