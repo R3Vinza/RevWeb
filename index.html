@@ -504,20 +504,6 @@ body{
     left:0;
 }
 
-.audio-cover .play-overlay{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(0,0,0,.3);
-    font-size:20px;
-    z-index:2;
-}
-
 .audio-info{flex:1;min-width:0;}
 .audio-info h5{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .audio-info p{font-size:11px;color:var(--soft);}
@@ -743,7 +729,6 @@ body{
 </head>
 <body>
 
-<!-- HOME -->
 <div class="page active" id="home">
 
 <div class="header">
@@ -791,9 +776,8 @@ body{
 
 <div class="banner-slider" id="bannerSlider">
     <div class="banner-track" id="bannerTrack">
-        <!-- SLIDE 1 (DENGAN VIDEO BACKGROUND NEON / DIGITAL) -->
         <div class="banner-slide" style="background:#0b0f19;">
-            <video class="video-bg" autoplay loop muted playsinline>
+            <video class="video-bg" autoplay loop muted playsinline preload="auto">
                 <source src="https://files.catbox.moe/00xajd.mp4" type="video/mp4">
             </video>
             <h2>Tools Premium, Murah Je!</h2>
@@ -801,9 +785,8 @@ body{
             <div class="tag"><i class="fa-solid fa-sparkles"></i> RevinzaDesigner - Layanan Online</div>
         </div>
         
-        <!-- SLIDE 2 (DENGAN VIDEO BACKGROUND HUJAN) -->
         <div class="banner-slide" style="background:#0f172a;">
-            <video class="video-bg" autoplay loop muted playsinline>
+            <video class="video-bg" autoplay loop muted playsinline preload="auto">
                 <source src="https://files.catbox.moe/00xajd.mp4" type="video/mp4">
             </video>
             <h2>Hujan-Hujan, Tetap Bisa!</h2>
@@ -868,7 +851,6 @@ body{
 
 </div>
 
-<!-- TOOLS PAGE -->
 <div class="page" id="tools">
 <div class="header">
     <div class="header-left">
@@ -916,7 +898,6 @@ body{
 </div>
 </div>
 
-<!-- INFO PAGE -->
 <div class="page" id="info">
 <div class="header">
     <div class="header-left">
@@ -943,7 +924,6 @@ body{
 </div>
 </div>
 
-<!-- CONTACT PAGE -->
 <div class="page" id="contact">
 <div class="header">
     <div class="header-left">
@@ -995,7 +975,6 @@ body{
 </div>
 </div>
 
-<!-- AUDIO PLAYER -->
 <div class="audio-player card-upin" id="audioPlayer">
     <div class="audio-cover" id="audioCover">
         <img src="https://files.catbox.moe/9u1xpa.jpg" alt="Album Cover">
@@ -1018,7 +997,6 @@ body{
     </div>
 </div>
 
-<!-- NAVBAR -->
 <div class="navbar card-upin">
     <button class="nav-btn active" onclick="showPage('home', this)"><i class="fa-solid fa-house"></i><span>Home</span></button>
     <button class="nav-btn" onclick="showPage('tools', this)"><i class="fa-solid fa-layer-group"></i><span>Tools</span></button>
@@ -1027,6 +1005,15 @@ body{
 </div>
 
 <script>
+// Pemicu instan untuk memaksa semua background video langsung jalan secepat mungkin
+document.querySelectorAll('.video-bg').forEach(video => {
+    video.play().catch(() => {
+        // Jika browser memblokir di mili-detik pertama, coba lagi saat user menyentuh layar
+        document.addEventListener('touchstart', () => { video.play(); }, { once: true });
+        document.addEventListener('click', () => { video.play(); }, { once: true });
+    });
+});
+
 // ==================== PLAYLIST ====================
 const playlist = [
     { title: "Aku yg malang 4", artist: "Superiots", src: "https://files.catbox.moe/zaw2q8.mp3", cover: "https://files.catbox.moe/9u1xpa.jpg" },
@@ -1087,9 +1074,9 @@ function showPage(pageId, btn){
     window.scrollTo(0,0);
 }
 
-// ==================== BANNER SLIDER (2 SLIDES FIXED) ====================
+// ==================== BANNER SLIDER ====================
 let currentSlide = 0;
-const totalSlides = 2; // Berubah menjadi 2 Slide
+const totalSlides = 2;
 
 function goToSlide(n){
     currentSlide = n;
