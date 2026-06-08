@@ -1,265 +1,212 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TikTok Downloader</title>
-    
-    <!-- Load Font: Orbitron & Share Tech Mono (sama seperti dashboard) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Downloader - RevinzaDesigner</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        /* --- VARIABLES SAMA SEPERTI DASHBOARD --- */
         :root {
-            --bg-dark: #080310;       
-            --bg-gradient: radial-gradient(circle at 50% 0%, #1a0b2e 0%, #080310 80%);
-            
-            --card-bg: rgba(26, 11, 46, 0.85);       
-            --accent-pink: #db2777;   
-            --accent-purple: #9333ea; 
-            
-            /* Enhanced Colors */
-            --accent-red: #ff3333;
-            --accent-red-dark: #cc0000;
-            --accent-red-glow: rgba(255, 51, 51, 0.7);
-            --card-bg-red: rgba(50, 10, 10, 0.9);
-            
-            --accent-blue: #3b82f6;
-            --accent-blue-dark: #1d4ed8;
-            --accent-blue-glow: rgba(59, 130, 246, 0.7);
-            --card-bg-blue: rgba(10, 20, 50, 0.9);
-            
-            --accent-green: #10b981;
-            --accent-green-dark: #059669;
-            --accent-green-glow: rgba(16, 185, 129, 0.7);
-            --card-bg-green: rgba(10, 40, 30, 0.9);
-            
-            --accent-purple-tool: #8b5cf6;
-            --accent-purple-dark: #7c3aed;
-            --accent-purple-glow: rgba(139, 92, 246, 0.7);
-            --card-bg-purple: rgba(30, 15, 50, 0.9);
-            
-            --accent-cyan: #06b6d4;
-            --accent-cyan-dark: #0891b2;
-            --accent-cyan-glow: rgba(6, 182, 212, 0.7);
-            --card-bg-cyan: rgba(10, 30, 40, 0.9);
-            
-            --accent-yellow: #eab308;
-            --accent-yellow-dark: #ca8a04;
-            --accent-yellow-glow: rgba(234, 179, 8, 0.7);
-            --card-bg-yellow: rgba(50, 40, 10, 0.9);
-            
-            --text-gray: #9ca3af; 
-            
-            /* FONT DEFINITIONS (sama seperti dashboard) */
-            --font-title: 'Share Tech Mono', sans-serif;   /* KHUSUS JUDUL (Tebal) */
-            --font-code: 'Share Tech Mono', monospace;  /* KHUSUS TEXT KECIL (Terinal) */
+            --bg: #0f172a;
+            --card: #1e293b;
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --text: #f8fafc;
+            --soft: #94a3b8;
+            --border: rgba(0,0,0,.3);
+            --shadow: rgba(0,0,0,.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        
+        [data-theme="light"] {
+            --bg: #f5f5f0;
+            --card: #ffffff;
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --text: #1a1a1a;
+            --soft: #666666;
+            --border: rgba(0,0,0,.15);
+            --shadow: rgba(0,0,0,.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
         body {
-            background-color: var(--bg-dark);
-            background-image: var(--bg-gradient);
-            color: #ffffff;
-            font-family: var(--font-code); /* Default pakai font coding */
-            height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 40px;
+            overflow-x: hidden;
+        }
+
+        /* CARDS GAYA DASHBOARD */
+        .card-upin {
+            background: var(--card);
+            border-radius: 24px;
+            border: 2px solid var(--border);
+            box-shadow: 0 6px 0 var(--shadow), 0 8px 20px var(--shadow);
+            transition: .2s;
+        }
+
+        /* HEADER GAYA DASHBOARD */
+        .header {
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
             position: relative;
         }
 
-        /* --- BACKGROUND PARTICLES (sama seperti dashboard) --- */
-        #particle-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none; overflow: hidden;
-        }
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.6); 
-            border-radius: 50%;
-            box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
-            animation: floatUp linear infinite;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
-        }
-
-        /* --- HEADER (sama seperti dashboard) --- */
-        header {
-            display: flex; 
-            align-items: center; 
-            gap: 16px; 
-            padding: 20px 25px; 
-            padding-top: 40px; 
-            padding-bottom: 20px; 
-            background: rgba(8, 3, 16, 0.95);
-            z-index: 50;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-        }
-        
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 25px; right: 25px; height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(219, 39, 119, 0.3) 20%, rgba(147, 51, 234, 0.3) 80%, transparent 100%);
-        }
-
-        .brand-title { 
-            font-family: var(--font-title); /* JUDUL HEADER PAKE FONT TEBAL */
-            font-size: 20px; 
-            font-weight: 700; 
-            letter-spacing: 1px; 
-            color: #fff;
-            text-shadow: 0 0 10px rgba(219, 39, 119, 0.6);
-            line-height: 1.1; padding-top: 1px; 
-        }
-        
-        .header-icon { 
-            color: #fff; cursor: pointer; flex-shrink: 0; margin-top: 2px;
-            transition: transform 0.2s;
-        }
-        .header-icon:active { transform: scale(0.9); color: var(--accent-pink); }
-
-        /* --- BACK BUTTON --- */
-        .back-btn {
-            background: rgba(219, 39, 119, 0.1);
-            border: 1px solid rgba(219, 39, 119, 0.3);
-            color: var(--accent-pink);
-            border-radius: 12px;
-            padding: 10px 15px;
-            font-family: var(--font-code);
-            font-size: 12px;
-            cursor: pointer;
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
+            gap: 12px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(139,92,246,.3);
+            overflow: hidden;
+        }
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .brand-text h1 { font-size: 20px; font-weight: 800; }
+        .brand-text p { font-size: 12px; color: var(--soft); }
+
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 var(--shadow), 0 8px 20px var(--shadow);
+            transition: .2s;
             text-decoration: none;
         }
-        
-        .back-btn:active { 
-            background: rgba(219, 39, 119, 0.2); 
-            transform: scale(0.98);
+
+        .action-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 var(--shadow), 0 2px 5px var(--shadow);
         }
 
-        /* --- MAIN CONTENT (sama seperti dashboard) --- */
-        main { 
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 0 20px; 
-            padding-bottom: 30px; 
-            scroll-behavior: smooth; 
-            padding-top: 0; 
-            position: relative;
+        .action-btn.status {
+            width: auto;
+            height: 26px;
+            padding: 0 10px;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #22c55e;
+            border-radius: 8px;
+            box-shadow: none;
+            pointer-events: none;
+            transform: none;
         }
 
-        /* --- TOOLS HEADER STYLE (sama seperti dashboard) --- */
-        .tools-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 25px;
-            margin-top: 20px;
-        }
-        .tools-title-group { display: flex; align-items: center; gap: 15px; }
-        .tools-logo { 
-            width: 50px; height: 50px; 
-            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
-            border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px rgba(219, 39, 119, 0.5);
-            animation: pulsePink 2s infinite;
-        }
-        @keyframes pulsePink {
-            0% { box-shadow: 0 0 15px rgba(219, 39, 119, 0.5); }
-            50% { box-shadow: 0 0 25px rgba(219, 39, 119, 0.7); }
-            100% { box-shadow: 0 0 15px rgba(219, 39, 119, 0.5); }
-        }
-        .tools-text h2 { 
-            font-family: var(--font-title); /* JUDUL HALAMAN TOOLS PAKE FONT TEBAL */
-            font-size: 24px; 
-            font-weight: 700; 
-            letter-spacing: 0.5px; 
-            color: #fff; margin-bottom: 2px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        .tools-text p { 
-            font-family: var(--font-code);
-            font-size: 11px; 
-            color: var(--accent-pink); 
-            font-weight: 400; 
-            letter-spacing: 0px; 
-            text-shadow: 0 0 8px rgba(219, 39, 119, 0.6);
-        }
-        
-        .owner-badge {
-            border: 2px solid var(--accent-pink);
-            color: var(--accent-pink);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px; 
-            font-weight: 700; 
-            letter-spacing: 0px;
-            background: rgba(219, 39, 119, 0.15);
-            box-shadow: 0 0 10px rgba(219, 39, 119, 0.3);
-            font-family: var(--font-title);
+        .theme-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0,0,0,.3);
+            transition: .2s;
         }
 
-        /* --- INPUT CARD (dengan gaya dashboard) --- */
+        .theme-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 rgba(0,0,0,.3);
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 25px 20px 15px;
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--secondary);
+        }
+
+        /* INPUT AREA */
+        .container-box {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
         .input-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 22px;
-            padding: 25px;
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .input-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
-            opacity: 0.7;
+            padding: 22px;
         }
 
         .input-group {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .input-field {
             width: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 18px 20px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            padding: 16px 20px;
             padding-right: 50px;
-            border-radius: 15px;
-            color: white;
-            font-family: var(--font-code);
+            border-radius: 16px;
+            color: var(--text);
             font-size: 14px;
+            font-weight: 600;
             outline: none;
-            transition: all 0.3s ease;
+            transition: 0.3s;
         }
 
         .input-field:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+            border-color: var(--primary);
         }
 
         .input-icon {
@@ -267,322 +214,279 @@
             right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-gray);
+            color: var(--soft);
+            font-size: 18px;
         }
 
-        /* --- BUTTON STYLE (sama seperti dashboard) --- */
+        /* BUTTON STYLE */
         .btn-process {
             width: 100%;
             padding: 16px;
-            border-radius: 15px;
-            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
-            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: 2px solid var(--border);
             color: white;
-            font-family: var(--font-title);
-            font-weight: 700;
+            font-weight: 800;
             font-size: 14px;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(112, 0, 255, 0.3);
-            margin-top: 10px;
+            box-shadow: 0 5px 0 var(--shadow);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .btn-process:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 0, 127, 0.4);
+        .btn-process:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 var(--shadow);
         }
 
         .btn-process:disabled {
-            opacity: 0.7;
+            opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 5px 0 var(--shadow);
         }
 
-        /* --- LOADER (sama seperti dashboard) --- */
+        /* LOADER GAYA DASHBOARD */
         .loader-wrapper {
             display: none;
             text-align: center;
-            margin: 20px 0;
+            padding: 30px 20px;
         }
-        
+
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top: 3px solid var(--accent-pink);
-            border-bottom: 3px solid var(--accent-cyan);
+            width: 44px;
+            height: 44px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-bottom: 4px solid var(--secondary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
+            margin: 0 auto 14px;
         }
-        
+
         @keyframes spin {
             100% { transform: rotate(360deg); }
         }
-        
+
         .loader-text {
-            font-family: var(--font-title);
-            font-size: 12px;
-            color: var(--accent-cyan);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
             letter-spacing: 1px;
         }
 
-        /* --- RESULT CARD (dengan gaya dashboard) --- */
+        /* RESULT AREA */
         .result-card {
             display: none;
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 22px;
-            padding: 25px;
-            animation: fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            margin-bottom: 20px;
+            padding: 22px;
+            animation: fade .3s ease;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
         .video-container {
             width: 100%;
-            border-radius: 15px;
+            border-radius: 18px;
             overflow: hidden;
-            margin-bottom: 20px;
-            background: black;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 18px;
+            background: #000;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        
+
         .video-player {
             width: 100%;
             display: block;
-            max-height: 400px;
+            max-height: 380px;
+            object-fit: contain;
         }
 
         .video-info {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        
-        .author-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-family: var(--font-title);
-            color: var(--accent-cyan);
-            font-size: 16px;
-        }
-
-        .video-caption {
-            font-size: 14px;
-            color: var(--text-gray);
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .stats-row {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 25px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 15px;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: white;
-        }
-        
-        .stat-item i {
-            color: var(--accent-pink);
-        }
-
-        /* --- ACTION BUTTONS (dengan gaya dashboard) --- */
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
             margin-bottom: 20px;
         }
 
-        .btn-download {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 15px;
-            border-radius: 15px;
-            font-family: var(--font-title);
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .video-caption {
+            font-size: 13px;
+            color: var(--soft);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: var(--bg);
+            padding: 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-item {
             font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-item i {
+            color: var(--secondary);
+            margin-right: 4px;
+        }
+
+        /* ACTION DOWNLOAD BUTTONS GRID-2 */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .btn-download {
+            background: var(--card);
+            border: 2px solid var(--border);
+            color: var(--text);
+            padding: 14px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 700;
             text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: 0.3s;
+            gap: 6px;
+            box-shadow: 0 4px 0 var(--shadow);
+            transition: 0.2s;
             text-align: center;
         }
 
-        .btn-download:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+        .btn-download:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 var(--shadow);
         }
 
         .btn-download i {
-            font-size: 20px;
-            color: var(--accent-cyan);
+            font-size: 18px;
+            color: var(--primary);
         }
 
-        /* --- RESET BUTTON --- */
+        /* RESET BUTTON GAYA EMBOSS RED */
         .btn-reset {
             width: 100%;
-            padding: 14px;
-            background: rgba(255, 51, 51, 0.1);
-            border: 1px solid var(--accent-red);
-            color: var(--accent-red);
-            border-radius: 15px;
+            padding: 12px;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            border: 2px solid var(--border);
+            color: white;
+            border-radius: 14px;
             cursor: pointer;
-            font-family: var(--font-title);
             font-weight: 700;
             font-size: 13px;
-            transition: 0.3s;
+            box-shadow: 0 4px 0 var(--shadow);
+            transition: 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-        }
-        
-        .btn-reset:hover {
-            background: rgba(255, 51, 51, 0.2);
+            gap: 6px;
         }
 
-        /* --- ERROR TOAST (dengan gaya dashboard) --- */
-        .error-toast {
-            background: rgba(255, 0, 0, 0.2);
-            border: 1px solid var(--accent-red);
-            color: #ff9999;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            text-align: center;
-            font-size: 13px;
-            display: none;
-            font-family: var(--font-code);
+        .btn-reset:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 var(--shadow);
         }
 
-        /* --- SECTION TITLE (sama seperti dashboard) --- */
-        .section-title { 
-            font-family: var(--font-title); /* JUDUL SECTION PAKE FONT TEBAL */
-            font-size: 15px; 
-            font-weight: 700; 
-            color: #fff; 
-            margin-bottom: 12px; 
-            letter-spacing: 0.5px;
-            border-left: 3px solid var(--accent-pink);
-            padding-left: 10px;
-            margin-top: 20px;
-        }
-
-        /* --- NOTIFICATION STYLE (sama seperti dashboard) --- */
+        /* TOAST NOTIFIKASI */
         .notification {
             position: fixed;
-            top: 100px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(26, 11, 46, 0.95);
-            color: var(--accent-pink);
+            background: var(--card);
+            color: var(--text);
             padding: 12px 20px;
-            border-radius: 10px;
-            font-family: var(--font-title);
+            border-radius: 14px;
             font-weight: 700;
-            letter-spacing: 0.8px;
             z-index: 9999;
-            border: 1px solid rgba(219, 39, 119, 0.3);
-            box-shadow: 0 4px 15px rgba(219, 39, 119, 0.2);
+            border: 2px solid var(--border);
+            box-shadow: 0 6px 20px var(--shadow);
             animation: slideIn 0.3s ease-out;
-            backdrop-filter: blur(10px);
             text-align: center;
             font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
+
         @keyframes slideIn {
-            from { transform: translateX(-50%) translateY(-15px); opacity: 0; }
+            from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
             to { transform: translateX(-50%) translateY(0); opacity: 1; }
         }
-        
+
         @keyframes slideOut {
             from { transform: translateX(-50%) translateY(0); opacity: 1; }
-            to { transform: translateX(-50%) translateY(-15px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(-20px); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Background Particles -->
-    <div id="particle-container"></div>
-
-    <!-- Header -->
-    <header>
-        <a href="/" class="back-btn">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M19 12H5M12 19l-7-7 7-7"></path>
-            </svg>
-            BACK
-        </a>
-        <div class="brand-title">TIKTOK DOWNLOADER</div>
-    </header>
-
-    <main>
-        <!-- Tools Header -->
-        <div class="tools-header">
-            <div class="tools-title-group">
-                <div class="tools-logo">
-                    <i class="fab fa-tiktok" style="font-size: 28px; color: white;"></i>
+    <div class="header">
+        <div class="header-left">
+            <a href="/" class="action-btn" title="Kembali ke Dashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fab fa-tiktok"></i>
                 </div>
-                <div class="tools-text">
-                    <h2>TIKTOK DOWNLOADER</h2>
-                    <p>Download TikTok Video & Audio</p>
+                <div class="brand-text">
+                    <h1>TikTok DL</h1>
+                    <p>Downloader Premium</p>
                 </div>
             </div>
-            <div class="owner-badge" id="user-badge">USER</div>
         </div>
+        <div class="header-right">
+            <button class="theme-btn" onclick="toggleTheme()" title="Ganti Tema">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+            <div class="action-btn status"><i class="fa-solid fa-shield-halved"></i><span>USER</span></div>
+        </div>
+    </div>
 
-        <!-- Input Form -->
-        <div class="section-title">PASTE TIKTOK URL</div>
-        
-        <div class="input-card">
+    <div class="section-title"><i class="fa-solid fa-link"></i> Tempel URL TikTok</div>
+    
+    <div class="container-box">
+        <div class="input-card card-upin">
             <div class="input-group">
-                <input type="text" id="urlInput" class="input-field" placeholder="Paste TikTok URL here...">
+                <input type="text" id="urlInput" class="input-field" placeholder="Masukkan link video TikTok di sini...">
                 <i class="fas fa-link input-icon"></i>
             </div>
             <button id="processBtn" class="btn-process">
-                <i class="fas fa-bolt"></i> DOWNLOAD NOW
+                <i class="fas fa-bolt"></i> DOWNLOAD SEKARANG
             </button>
-            <div id="errorToast" class="error-toast"></div>
         </div>
+    </div>
 
-        <!-- Loader -->
-        <div id="loader" class="loader-wrapper">
-            <div class="spinner"></div>
-            <div class="loader-text">FETCHING TIKTOK DATA...</div>
-        </div>
+    <div id="loader" class="loader-wrapper">
+        <div class="spinner"></div>
+        <div class="loader-text">MENGAMBIL DATA TIKTOK...</div>
+    </div>
 
-        <!-- Result Card -->
-        <div id="resultCard" class="result-card">
+    <div class="container-box">
+        <div id="resultCard" class="result-card card-upin">
             <div class="video-container">
                 <video id="videoPreview" class="video-player" controls autoplay loop muted></video>
             </div>
@@ -592,8 +496,8 @@
                     <i class="fas fa-user-circle"></i>
                     <span id="authorName">@username</span>
                 </div>
-                <div class="video-caption" id="videoCaption">Video caption will appear here...</div>
-                
+                <div class="video-caption" id="videoCaption">Deskripsi video...</div>
+
                 <div class="stats-row">
                     <div class="stat-item"><i class="fas fa-heart"></i> <span id="likeCount">0</span></div>
                     <div class="stat-item"><i class="fas fa-comment"></i> <span id="commentCount">0</span></div>
@@ -604,7 +508,7 @@
             <div class="action-buttons">
                 <a href="#" id="dlVideo" class="btn-download" target="_blank">
                     <i class="fas fa-video"></i>
-                    <span>VIDEO NO WATERMARK</span>
+                    <span>VIDEO (NO WM)</span>
                 </a>
                 <a href="#" id="dlAudio" class="btn-download" target="_blank">
                     <i class="fas fa-music"></i>
@@ -613,61 +517,19 @@
             </div>
 
             <button onclick="resetApp()" class="btn-reset">
-                <i class="fas fa-trash"></i> RESET
+                <i class="fas fa-trash"></i> RESET FORM
             </button>
         </div>
-    </main>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Create background particles (same as dashboard)
-            const container = document.getElementById('particle-container');
-            const particleCount = 35;
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                const size = Math.random() * 3 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                particle.style.left = `${Math.random() * 100}vw`;
-                particle.style.top = `${Math.random() * 100}vh`;
-                
-                const duration = Math.random() * 15 + 10;
-                particle.style.animationDuration = `${duration}s`;
-                
-                particle.style.animationDelay = `-${Math.random() * 20}s`;
-
-                container.appendChild(particle);
-            }
-
-            // Check user role (simplified version from dashboard)
-            async function fetchUserData() {
-                try {
-                    // This is a simplified version - you should implement your actual user data fetching
-                    const userRole = 'user'; // Default role
-                    const badgeElement = document.getElementById('user-badge');
-                    if (badgeElement) {
-                        badgeElement.textContent = userRole.toUpperCase();
-                    }
-                    
-                    return { role: userRole };
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                    return { role: 'user' };
-                }
-            }
-
-            await fetchUserData();
-
-            // TikTok Downloader Logic
             const processBtn = document.getElementById('processBtn');
             const urlInput = document.getElementById('urlInput');
             const loader = document.getElementById('loader');
             const resultCard = document.getElementById('resultCard');
-            const errorToast = document.getElementById('errorToast');
 
             // Output Elements
             const videoPreview = document.getElementById('videoPreview');
@@ -679,13 +541,13 @@
             const dlVideo = document.getElementById('dlVideo');
             const dlAudio = document.getElementById('dlAudio');
 
-            // Show notification function (same as dashboard)
-            function showNotification(message) {
+            // Show Custom Dashboard Notification
+            function showNotification(message, icon = "🚀") {
                 const notification = document.createElement('div');
                 notification.className = 'notification';
-                notification.innerHTML = `<span style="color:#ffffff">🚀</span> ${message}`;
+                notification.innerHTML = `<span>${icon}</span> ${message}`;
                 document.body.appendChild(notification);
-                
+
                 setTimeout(() => {
                     notification.style.animation = 'slideOut 0.3s ease-out';
                     setTimeout(() => {
@@ -699,72 +561,61 @@
             processBtn.addEventListener('click', async () => {
                 const url = urlInput.value.trim();
                 if (!url) {
-                    showError("⚠️ Please enter a TikTok URL first!");
+                    showNotification("Masukkan URL TikTok terlebih dahulu!", "⚠️");
                     return;
                 }
 
-                // Validate TikTok URL
                 if (!url.includes('tiktok.com') && !url.includes('vt.tiktok.com')) {
-                    showError("❌ Please enter a valid TikTok URL!");
+                    showNotification("Masukkan URL TikTok yang valid!", "❌");
                     return;
                 }
 
-                // Reset UI
-                errorToast.style.display = 'none';
+                // Reset Tampilan
                 resultCard.style.display = 'none';
                 loader.style.display = 'block';
                 processBtn.disabled = true;
-                processBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
+                processBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> MEMPROSES...';
                 videoPreview.pause();
                 videoPreview.src = "";
 
                 try {
-                    // Using a public TikTok API (TikWM)
                     const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
-                    
                     const response = await fetch(apiUrl);
                     const data = await response.json();
 
                     if (data.code === 0) {
-                        // Success
                         const info = data.data;
-                        
-                        // Populate Data
+
+                        // Pasang data ke komponen
                         authorName.textContent = '@' + info.author.unique_id;
-                        videoCaption.textContent = info.title || "No caption";
+                        videoCaption.textContent = info.title || "Tidak ada deskripsi";
                         likeCount.textContent = formatStats(info.digg_count || 0);
                         commentCount.textContent = formatStats(info.comment_count || 0);
                         shareCount.textContent = formatStats(info.share_count || 0);
 
-                        // Set Sources
-                        videoPreview.src = info.play; // URL video no watermark
+                        // Pasang file download & stream
+                        videoPreview.src = info.play; 
                         dlVideo.href = info.play;
-                        dlVideo.setAttribute('download', 'tiktok_video.mp4');
-                        
-                        // Audio source
                         dlAudio.href = info.music || '#';
-                        dlAudio.setAttribute('download', 'tiktok_audio.mp3');
 
-                        // Show Result
+                        // Tampilkan hasil
                         loader.style.display = 'none';
                         resultCard.style.display = 'block';
                         processBtn.disabled = false;
-                        processBtn.innerHTML = '<i class="fas fa-bolt"></i> EXECUTE DOWNLOAD';
-                        
-                        // Auto play (muted)
-                        videoPreview.play().catch(e => console.log("Autoplay blocked"));
-                        
-                        showNotification("✅ TikTok video fetched successfully!");
+                        processBtn.innerHTML = '<i class="fas fa-bolt"></i> DOWNLOAD SEKARANG';
+
+                        videoPreview.play().catch(e => console.log("Autoplay diblokir"));
+                        showNotification("Data TikTok berhasil didapatkan!", "✅");
 
                     } else {
-                        throw new Error("Video not found or private.");
+                        throw new Error("Video tidak ditemukan.");
                     }
 
                 } catch (err) {
                     loader.style.display = 'none';
                     processBtn.disabled = false;
-                    processBtn.innerHTML = '<i class="fas fa-bolt"></i> EXECUTE DOWNLOAD';
-                    showError("❌ Failed to fetch data. Please check the URL.");
+                    processBtn.innerHTML = '<i class="fas fa-bolt"></i> DOWNLOAD SEKARANG';
+                    showNotification("Gagal mengambil data. Coba link lainnya.", "❌");
                     console.error(err);
                 }
             });
@@ -775,28 +626,41 @@
                 return num;
             }
 
-            function showError(msg) {
-                errorToast.textContent = msg;
-                errorToast.style.display = 'block';
-                setTimeout(() => errorToast.style.display = 'none', 3000);
-            }
-
             window.resetApp = function() {
                 urlInput.value = '';
                 resultCard.style.display = 'none';
                 videoPreview.pause();
                 videoPreview.src = "";
                 urlInput.focus();
-                showNotification("App reset successfully!");
+                showNotification("Formulir berhasil direset!", "🧹");
             };
 
-            // Enter key support
             urlInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     processBtn.click();
                 }
             });
         });
+
+        // Theme Sync Functions (Sama persis dengan dashboard)
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            if(icon) icon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = document.getElementById('themeIcon');
+            if(icon) icon.className = savedTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        }
     </script>
 </body>
 </html>
