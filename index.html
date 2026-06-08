@@ -40,8 +40,8 @@ body{
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
-    padding-bottom:160px;
-    overflow-x: hidden; /* Mencegah web melar ke samping */
+    padding-bottom:170px;
+    overflow-x: hidden;
 }
 
 .page{display:none;animation:fade .3s ease;}
@@ -94,9 +94,9 @@ body{
 
 .header-right{
     display:flex;
-    flex-direction: column; /* Mengubah posisi menjadi ke bawah (vertikal) */
+    flex-direction: column;
     align-items: flex-end;
-    gap: 6px; /* Jarak antara tombol tema dan status aman */
+    gap: 6px;
 }
 
 .action-btn{
@@ -120,7 +120,6 @@ body{
     box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
 }
 
-/* Memperkecil & merapikan status aman agar pas di bawah tombol tema */
 .action-btn.status{
     width:auto;
     height: 26px;
@@ -135,7 +134,6 @@ body{
     transform: none;
 }
 
-/* Menyesuaikan ukuran tombol tema agar proporsional */
 .theme-btn{
     width:38px;
     height:38px;
@@ -251,7 +249,6 @@ body{
     width:fit-content;
 }
 
-/* VIDEO BACKGROUND BANNER */
 .banner-slide .video-bg {
     position: absolute;
     top: 50%;
@@ -264,7 +261,6 @@ body{
     pointer-events: none;
 }
 
-/* Lapisan Gelap Tipis di atas Video agar Teks Gampang Dibaca */
 .banner-slide::before {
     content: '';
     position: absolute;
@@ -276,7 +272,6 @@ body{
     z-index: 1;
 }
 
-/* Memastikan teks banner tetap berada di atas video */
 .banner-slide h2, 
 .banner-slide p, 
 .banner-slide .tag {
@@ -471,7 +466,7 @@ body{
     border:2px solid var(--border);
 }
 
-/* AUDIO PLAYER */
+/* AUDIO PLAYER RAPI & FIX GRID */
 .audio-player{
     position:fixed;
     bottom:95px;
@@ -479,8 +474,9 @@ body{
     transform:translateX(-50%);
     width:92%;
     max-width:480px;
-    padding:12px 16px 16px;
-    display:flex;
+    padding:12px 16px;
+    display:grid;
+    grid-template-columns: auto 1fr auto;
     align-items:center;
     gap:12px;
     z-index:100;
@@ -488,15 +484,10 @@ body{
 }
 
 .audio-cover{
-    width:48px;
-    height:48px;
-    border-radius:16px;
+    width:44px;
+    height:44px;
+    border-radius:12px;
     background:linear-gradient(135deg, var(--primary), var(--secondary));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-    color:white;
     flex-shrink:0;
     border:2px solid var(--border);
     box-shadow:0 4px 0 var(--shadow);
@@ -513,37 +504,67 @@ body{
     left:0;
 }
 
-.audio-info{flex:1;min-width:0;}
-.audio-info h5{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.audio-info p{font-size:11px;color:var(--soft);}
+.audio-info{
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
 
-.audio-controls{display:flex;align-items:center;gap:8px;}
+.audio-info h5{
+    font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-bottom:2px;
+}
+
+.audio-info p{
+    font-size:11px;
+    color:var(--soft);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.audio-right-controls{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.audio-controls{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
 
 .audio-btn{
-    width:40px;
-    height:40px;
-    border-radius:14px;
+    width:36px;
+    height:36px;
+    border-radius:12px;
     border:2px solid var(--border);
     background:rgba(255,255,255,.05);
     color:var(--text);
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:14px;
+    font-size:12px;
     cursor:pointer;
-    box-shadow:0 4px 0 var(--shadow);
+    box-shadow:0 3px 0 var(--shadow);
     transition:.2s;
 }
 
 .audio-btn:active{
-    transform:translateY(4px);
+    transform:translateY(3px);
     box-shadow:0 0 0 var(--shadow);
 }
 
 .audio-btn.play{
     background:linear-gradient(135deg, var(--primary), var(--secondary));
     color:white;
-    font-size:16px;
+    font-size:14px;
 }
 
 .audio-btn:disabled{
@@ -551,17 +572,15 @@ body{
     cursor:not-allowed;
 }
 
-/* VOLUME SLIDER */
 .audio-vol{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:6px;
 }
 
 .audio-vol i{
     font-size:14px;
     color:var(--soft);
-    transition:color .2s;
 }
 
 .audio-vol i.muted{
@@ -569,62 +588,40 @@ body{
 }
 
 .audio-vol input[type="range"]{
-    width:80px;
-    height:5px;
+    width:60px;
+    height:4px;
     -webkit-appearance:none;
     appearance:none;
     background:rgba(128,128,128,.25);
     border-radius:10px;
     outline:none;
     cursor:pointer;
-    position:relative;
 }
 
-.audio-vol input[type="range"]::-webkit-slider-runnable-track{
-    height:5px;
-    background:rgba(128,128,128,.25);
-    border-radius:10px;
+@media (max-width: 420px) {
+    .audio-vol input[type="range"] {
+        display: none;
+    }
 }
 
 .audio-vol input[type="range"]::-webkit-slider-thumb{
     -webkit-appearance:none;
     appearance:none;
-    width:20px;
-    height:20px;
+    width:14px;
+    height:14px;
     border-radius:50%;
     background:linear-gradient(135deg, var(--primary), var(--secondary));
     cursor:pointer;
-    border:3px solid var(--card);
-    box-shadow:0 2px 10px rgba(139,92,246,.5), 0 0 0 2px rgba(139,92,246,.2);
-    margin-top:-7.5px;
-    transition:transform .15s, box-shadow .15s;
-}
-
-.audio-vol input[type="range"]::-webkit-slider-thumb:hover{
-    transform:scale(1.15);
-    box-shadow:0 3px 15px rgba(139,92,246,.6), 0 0 0 3px rgba(139,92,246,.3);
-}
-
-.audio-vol input[type="range"]::-webkit-slider-thumb:active{
-    transform:scale(1.1);
-    box-shadow:0 2px 12px rgba(139,92,246,.7), 0 0 0 4px rgba(139,92,246,.4);
-}
-
-.audio-vol input[type="range"]::-moz-range-track{
-    height:5px;
-    background:rgba(128,128,128,.25);
-    border-radius:10px;
-    border:none;
+    border:2px solid var(--card);
 }
 
 .audio-vol input[type="range"]::-moz-range-thumb{
-    width:20px;
-    height:20px;
+    width:14px;
+    height:14px;
     border-radius:50%;
     background:linear-gradient(135deg, var(--primary), var(--secondary));
     cursor:pointer;
-    border:3px solid var(--card);
-    box-shadow:0 2px 10px rgba(139,92,246,.5);
+    border:2px solid var(--card);
 }
 
 /* PROGRESS BAR */
@@ -635,8 +632,6 @@ body{
     width:100%;
     height:4px;
     background:rgba(128,128,128,.15);
-    border-radius:0 0 24px 24px;
-    overflow:hidden;
 }
 
 .progress-bar{
@@ -644,7 +639,6 @@ body{
     width:0%;
     background:linear-gradient(90deg, var(--primary), var(--secondary));
     transition:width 0.1s linear;
-    border-radius:0 0 0 24px;
 }
 
 /* NAVBAR */
@@ -754,7 +748,6 @@ body{
             </div>
         </div>
     </div>
-    <!-- FIXED SUSUNAN VERTIKAL KE BAWAH -->
     <div class="header-right">
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
             <i class="fa-solid fa-moon" id="themeIcon"></i>
@@ -874,7 +867,6 @@ body{
             <div class="brand-text"><h1>All Tools</h1><p>Downloader & Utility</p></div>
         </div>
     </div>
-    <!-- SUSUNAN VERTIKAL HALAMAN TOOLS -->
     <div class="header-right">
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn2" title="Ganti Tema">
             <i class="fa-solid fa-moon" id="themeIcon2"></i>
@@ -922,7 +914,6 @@ body{
             <div class="brand-text"><h1>Information</h1><p>About & Status</p></div>
         </div>
     </div>
-    <!-- SUSUNAN VERTIKAL HALAMAN INFO -->
     <div class="header-right">
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn3" title="Ganti Tema">
             <i class="fa-solid fa-moon" id="themeIcon3"></i>
@@ -949,7 +940,6 @@ body{
             <div class="brand-text"><h1>Developer</h1><p>Profile & Social</p></div>
         </div>
     </div>
-    <!-- SUSUNAN VERTIKAL HALAMAN PROFIL -->
     <div class="header-right">
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn4" title="Ganti Tema">
             <i class="fa-solid fa-moon" id="themeIcon4"></i>
@@ -988,6 +978,7 @@ body{
 </div>
 </div>
 
+<!-- BLOCK AUDIO PLAYER YANG SUDAH DIREPARASI -->
 <div class="audio-player card-upin" id="audioPlayer">
     <div class="audio-cover" id="audioCover">
         <img src="https://files.catbox.moe/9u1xpa.jpg" alt="Album Cover">
@@ -996,14 +987,16 @@ body{
         <h5 id="audioTitle">Night Drive</h5>
         <p id="audioArtist">Synthwave Boy</p>
     </div>
-    <div class="audio-controls">
-        <button class="audio-btn" onclick="prevTrack()" id="prevBtn"><i class="fa-solid fa-backward-step"></i></button>
-        <button class="audio-btn play" id="playBtn" onclick="togglePlay()"><i class="fa-solid fa-play" id="playIcon"></i></button>
-        <button class="audio-btn" onclick="nextTrack()" id="nextBtn"><i class="fa-solid fa-forward-step"></i></button>
-    </div>
-    <div class="audio-vol">
-        <i class="fa-solid fa-volume-high" id="volIcon"></i>
-        <input type="range" min="0" max="100" value="70" oninput="setVolume(this.value)" id="volumeSlider">
+    <div class="audio-right-controls">
+        <div class="audio-controls">
+            <button class="audio-btn" onclick="prevTrack()" id="prevBtn"><i class="fa-solid fa-backward-step"></i></button>
+            <button class="audio-btn play" id="playBtn" onclick="togglePlay()"><i class="fa-solid fa-play" id="playIcon"></i></button>
+            <button class="audio-btn" onclick="nextTrack()" id="nextBtn"><i class="fa-solid fa-forward-step"></i></button>
+        </div>
+        <div class="audio-vol">
+            <i class="fa-solid fa-volume-high" id="volIcon"></i>
+            <input type="range" min="0" max="100" value="70" oninput="setVolume(this.value)" id="volumeSlider">
+        </div>
     </div>
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
