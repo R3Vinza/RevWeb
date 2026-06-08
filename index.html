@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -213,7 +213,6 @@ body{
 .banner-slide{
     min-width:100%;
     height:180px;
-    background:linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
     border-radius:24px;
     padding:22px;
     position:relative;
@@ -241,6 +240,39 @@ body{
     font-weight:700;
     color:var(--primary);
     width:fit-content;
+}
+
+/* VIDEO BACKGROUND BANNER */
+.banner-slide .video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Lapisan Gelap Tipis di atas Video agar Teks Gampang Dibaca */
+.banner-slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.4);
+    z-index: 1;
+}
+
+/* Memastikan teks banner tetap berada di atas video */
+.banner-slide h2, 
+.banner-slide p, 
+.banner-slide .tag {
+    position: relative;
+    z-index: 2;
 }
 
 .banner-dots{
@@ -430,9 +462,7 @@ body{
     border:2px solid var(--border);
 }
 
-/* ============================================
-   AUDIO PLAYER - FULLY FIXED
-   ============================================ */
+/* AUDIO PLAYER */
 .audio-player{
     position:fixed;
     bottom:95px;
@@ -526,16 +556,13 @@ body{
     cursor:not-allowed;
 }
 
-/* ============================================
-   VOLUME SLIDER - FULLY FIXED (like screenshot)
-   ============================================ */
+/* VOLUME SLIDER */
 .audio-vol{
     display:flex;
     align-items:center;
     gap:8px;
 }
 
-/* Volume icon */
 .audio-vol i{
     font-size:14px;
     color:var(--soft);
@@ -546,7 +573,6 @@ body{
     color:#ef4444;
 }
 
-/* Track background */
 .audio-vol input[type="range"]{
     width:80px;
     height:5px;
@@ -559,14 +585,12 @@ body{
     position:relative;
 }
 
-/* Track fill (webkit) */
 .audio-vol input[type="range"]::-webkit-slider-runnable-track{
     height:5px;
     background:rgba(128,128,128,.25);
     border-radius:10px;
 }
 
-/* Thumb (bulatan) - BIGGER like screenshot */
 .audio-vol input[type="range"]::-webkit-slider-thumb{
     -webkit-appearance:none;
     appearance:none;
@@ -591,7 +615,6 @@ body{
     box-shadow:0 2px 12px rgba(139,92,246,.7), 0 0 0 4px rgba(139,92,246,.4);
 }
 
-/* Firefox styles */
 .audio-vol input[type="range"]::-moz-range-track{
     height:5px;
     background:rgba(128,128,128,.25);
@@ -609,9 +632,7 @@ body{
     box-shadow:0 2px 10px rgba(139,92,246,.5);
 }
 
-/* ============================================
-   PROGRESS BAR - FULLY FIXED (bottom of player)
-   ============================================ */
+/* PROGRESS BAR */
 .progress-container{
     position:absolute;
     bottom:0;
@@ -629,18 +650,6 @@ body{
     background:linear-gradient(90deg, var(--primary), var(--secondary));
     transition:width 0.1s linear;
     border-radius:0 0 0 24px;
-}
-
-/* ============================================
-   TIME DISPLAY (optional - shows current/total time)
-   ============================================ */
-.time-display{
-    display:flex;
-    align-items:center;
-    gap:4px;
-    font-size:10px;
-    color:var(--soft);
-    margin-top:2px;
 }
 
 /* NAVBAR */
@@ -730,52 +739,6 @@ body{
 .contact-item .left i{font-size:24px;}
 .contact-item .left h3{font-size:15px;margin-bottom:3px;}
 .contact-item .left p{font-size:12px;color:var(--soft);}
-
-/* RAIN */
-.rain{
-    position:absolute;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    pointer-events:none;
-    top:0;
-    left:0;
-}
-
-.rain-drop{
-    position:absolute;
-    width:1px;
-    height:20px;
-    background:linear-gradient(to bottom, transparent, rgba(255,255,255,.2));
-    animation:fall linear infinite;
-}
-
-@keyframes fall{to{transform:translateY(300px);}}
-
-/* WAVE */
-.wave{
-    display:inline-flex;
-    align-items:center;
-    gap:2px;
-}
-
-.wave span{
-    width:3px;
-    height:12px;
-    background:white;
-    border-radius:10px;
-    animation:wave 1s infinite ease-in-out;
-}
-
-.wave span:nth-child(2){animation-delay:.1s;}
-.wave span:nth-child(3){animation-delay:.2s;}
-.wave span:nth-child(4){animation-delay:.3s;}
-
-@keyframes wave{
-    0%,100%{height:6px;}
-    50%{height:16px;}
-}
-
 </style>
 </head>
 <body>
@@ -828,13 +791,21 @@ body{
 
 <div class="banner-slider" id="bannerSlider">
     <div class="banner-track" id="bannerTrack">
-        <div class="banner-slide">
+        <!-- SLIDE 1 (DENGAN VIDEO BACKGROUND NEON / DIGITAL) -->
+        <div class="banner-slide" style="background:#0b0f19;">
+            <video class="video-bg" autoplay loop muted playsinline>
+                <source src="https://files.catbox.moe/00xajd.mp4" type="video/mp4">
+            </video>
             <h2>Tools Premium, Murah Je!</h2>
             <p>Downloader, AI, Utility tools, dan layanan developer dalam satu website.</p>
             <div class="tag"><i class="fa-solid fa-sparkles"></i> RevinzaDesigner - Layanan Online</div>
         </div>
-        <div class="banner-slide" style="background:linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);">
-            <div class="rain" id="rain"></div>
+        
+        <!-- SLIDE 2 (DENGAN VIDEO BACKGROUND HUJAN) -->
+        <div class="banner-slide" style="background:#0f172a;">
+            <video class="video-bg" autoplay loop muted playsinline>
+                <source src="https://files.catbox.moe/00xajd.mp4" type="video/mp4">
+            </video>
             <h2>Hujan-Hujan, Tetap Bisa!</h2>
             <p>Meski hujan, tetap bisa akses tools dengan aman dan nyaman.</p>
             <div class="tag" style="background:rgba(34,197,94,.2);color:#22c55e;"><i class="fa-solid fa-cloud-rain"></i> RevinzaDesigner - Layanan Online</div>
@@ -843,7 +814,6 @@ body{
     <div class="banner-dots">
         <div class="dot active" onclick="goToSlide(0)"></div>
         <div class="dot" onclick="goToSlide(1)"></div>
-        <div class="dot" *onclick="goToSlide(2)"></div>
     </div>
 </div>
 
@@ -1025,15 +995,10 @@ body{
 </div>
 </div>
 
-<!-- ============================================
-     AUDIO PLAYER - FULLY FIXED
-     ============================================ -->
+<!-- AUDIO PLAYER -->
 <div class="audio-player card-upin" id="audioPlayer">
     <div class="audio-cover" id="audioCover">
         <img src="https://files.catbox.moe/9u1xpa.jpg" alt="Album Cover">
-        <div class="play-overlay" id="playOverlay" style="display:none;">
-            <i class="fa-solid fa-play"></i>
-        </div>
     </div>
     <div class="audio-info">
         <h5 id="audioTitle">Night Drive</h5>
@@ -1048,7 +1013,6 @@ body{
         <i class="fa-solid fa-volume-high" id="volIcon"></i>
         <input type="range" min="0" max="100" value="70" oninput="setVolume(this.value)" id="volumeSlider">
     </div>
-    <!-- PROGRESS BAR at bottom -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
@@ -1065,42 +1029,16 @@ body{
 <script>
 // ==================== PLAYLIST ====================
 const playlist = [
-    {
-        title: "Aku yg malang 4",
-        artist: "Superiots",
-        src: "https://files.catbox.moe/zaw2q8.mp3",
-        cover: "https://files.catbox.moe/9u1xpa.jpg"
-    },
-    {
-        title: "Freaks",
-        artist: "Surf Curse",
-        src: "https://files.catbox.moe/qo5jed.m4a",
-        cover: "https://files.catbox.moe/9u1xpa.jpg"
-    },
-    {
-        title: "The Man Who Can`t Be Moved",
-        artist: "The Script",
-        src: "https://files.catbox.moe/1rcytl.mp3",
-        cover: "https://files.catbox.moe/9u1xpa.jpg"
-    },
-    {
-        title: "impostor Syndrome",
-        artist: "Sidney Gish",
-        src: "https://files.catbox.moe/v96vpy.m4a",
-        cover: "https://files.catbox.moe/9u1xpa.jpg"
-    },
-    {
-        title: "The World is Ugly",
-        artist: "My Chemical Romance",
-        src: "https://files.catbox.moe/0ysqlj.m4a",
-        cover: "https://files.catbox.moe/9u1xpa.jpg"
-    }
+    { title: "Aku yg malang 4", artist: "Superiots", src: "https://files.catbox.moe/zaw2q8.mp3", cover: "https://files.catbox.moe/9u1xpa.jpg" },
+    { title: "Freaks", artist: "Surf Curse", src: "https://files.catbox.moe/qo5jed.m4a", cover: "https://files.catbox.moe/9u1xpa.jpg" },
+    { title: "The Man Who Can`t Be Moved", artist: "The Script", src: "https://files.catbox.moe/1rcytl.mp3", cover: "https://files.catbox.moe/9u1xpa.jpg" },
+    { title: "impostor Syndrome", artist: "Sidney Gish", src: "https://files.catbox.moe/v96vpy.m4a", cover: "https://files.catbox.moe/9u1xpa.jpg" },
+    { title: "The World is Ugly", artist: "My Chemical Romance", src: "https://files.catbox.moe/0ysqlj.m4a", cover: "https://files.catbox.moe/9u1xpa.jpg" }
 ];
 
 // ==================== DROPDOWN ====================
 function toggleDropdown() {
-    const menu = document.getElementById('dropdownMenu');
-    menu.classList.toggle('show');
+    document.getElementById('dropdownMenu').classList.toggle('show');
 }
 
 document.addEventListener('click', function(e) {
@@ -1110,9 +1048,7 @@ document.addEventListener('click', function(e) {
     
     menuBtns.forEach(id => {
         const btn = document.getElementById(id);
-        if (btn && (btn.contains(e.target) || btn === e.target)) {
-            clickedBtn = true;
-        }
+        if (btn && btn.contains(e.target)) clickedBtn = true;
     });
     
     if (!menu.contains(e.target) && !clickedBtn) {
@@ -1136,15 +1072,13 @@ function toggleTheme() {
 
 function loadTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
-    const html = document.documentElement;
-    
-    html.setAttribute('data-theme', savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
     document.querySelectorAll('[id^="themeIcon"]').forEach(icon => {
         icon.className = savedTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
     });
 }
 
-// ==================== PAGE NAVIGATION ====================
+// ==================== NAVIGATION ====================
 function showPage(pageId, btn){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
@@ -1153,9 +1087,9 @@ function showPage(pageId, btn){
     window.scrollTo(0,0);
 }
 
-// ==================== BANNER SLIDER ====================
+// ==================== BANNER SLIDER (2 SLIDES FIXED) ====================
 let currentSlide = 0;
-const totalSlides = 3;
+const totalSlides = 2; // Berubah menjadi 2 Slide
 
 function goToSlide(n){
     currentSlide = n;
@@ -1167,7 +1101,7 @@ let autoSlide = setInterval(() => {
     goToSlide((currentSlide + 1) % totalSlides);
 }, 4000);
 
-// SWIPE
+// SWIPE BANNER
 let touchStartX = 0;
 let touchEndX = 0;
 const bannerSlider = document.getElementById('bannerSlider');
@@ -1188,7 +1122,6 @@ bannerSlider.addEventListener('touchend', (e) => {
 function handleSwipe() {
     const swipeThreshold = 50;
     const diff = touchStartX - touchEndX;
-    
     if (Math.abs(diff) > swipeThreshold) {
         if (diff > 0) {
             goToSlide((currentSlide + 1) % totalSlides);
@@ -1198,84 +1131,47 @@ function handleSwipe() {
     }
 }
 
-// ==================== RAIN EFFECT ====================
-function createRain(){
-    const rain = document.getElementById('rain');
-    if(!rain) return;
-    for(let i = 0; i < 20; i++){
-        const drop = document.createElement('div');
-        drop.className = 'rain-drop';
-        drop.style.left = Math.random() * 100 + '%';
-        drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
-        drop.style.animationDelay = Math.random() * 2 + 's';
-        rain.appendChild(drop);
-    }
-}
-createRain();
-
 function selectCategory(el){
     document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
 }
 
-// ============================================
-// AUDIO PLAYER - FULLY FIXED & COMPLETE
-// ============================================
-
+// ==================== AUDIO PLAYER ====================
 let trackIndex = 0;
 let isPlaying = false;
 let audio = new Audio();
 let isLoading = false;
 
-// Preload audio
 audio.preload = "metadata";
-
-// Initialize volume
 audio.volume = 0.7;
 
 function loadTrack(i){
     if(isLoading) return;
     isLoading = true;
-    
     trackIndex = i;
     const track = playlist[i];
     
-    // Reset audio
     audio.pause();
     audio.src = track.src;
     audio.load();
     
-    // Update UI
     document.getElementById('audioTitle').textContent = track.title;
     document.getElementById('audioArtist').textContent = track.artist;
     
-    // Update cover
     const coverImg = document.querySelector('#audioCover img');
-    if(coverImg && track.cover){
-        coverImg.src = track.cover;
-    }
+    if(coverImg && track.cover) coverImg.src = track.cover;
     
-    // Reset progress bar to 0
     updateProgressBar(0);
-    
-    // Enable buttons
-    document.getElementById('playBtn').disabled = false;
-    document.getElementById('prevBtn').disabled = false;
-    document.getElementById('nextBtn').disabled = false;
-    
     isLoading = false;
 }
 
 function updateProgressBar(percent) {
     const progressBar = document.getElementById('progressBar');
-    if (progressBar) {
-        progressBar.style.width = percent + '%';
-    }
+    if (progressBar) progressBar.style.width = percent + '%';
 }
 
 function togglePlay(){
     if(isLoading) return;
-    
     const icon = document.getElementById('playIcon');
     const playBtn = document.getElementById('playBtn');
     
@@ -1286,14 +1182,12 @@ function togglePlay(){
         playBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
     } else {
         const playPromise = audio.play();
-        
         if(playPromise !== undefined){
             playPromise.then(() => {
                 isPlaying = true;
                 icon.className = 'fa-solid fa-pause';
                 playBtn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
             }).catch(error => {
-                console.log('Play failed:', error);
                 isPlaying = false;
                 icon.className = 'fa-solid fa-play';
                 setTimeout(() => nextTrack(), 1000);
@@ -1304,66 +1198,41 @@ function togglePlay(){
 
 function nextTrack(){
     if(isLoading) return;
-    
-    audio.pause();
-    isPlaying = false;
+    audio.pause(); isPlaying = false;
     document.getElementById('playIcon').className = 'fa-solid fa-play';
     document.getElementById('playBtn').style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
     
     trackIndex = (trackIndex + 1) % playlist.length;
     loadTrack(trackIndex);
-    
-    setTimeout(() => {
-        togglePlay();
-    }, 300);
+    setTimeout(() => { togglePlay(); }, 300);
 }
 
 function prevTrack(){
     if(isLoading) return;
-    
-    audio.pause();
-    isPlaying = false;
+    audio.pause(); isPlaying = false;
     document.getElementById('playIcon').className = 'fa-solid fa-play';
     document.getElementById('playBtn').style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
     
     trackIndex = (trackIndex - 1 + playlist.length) % playlist.length;
     loadTrack(trackIndex);
-    
-    setTimeout(() => {
-        togglePlay();
-    }, 300);
+    setTimeout(() => { togglePlay(); }, 300);
 }
 
-// ============================================
-// VOLUME - FULLY FIXED
-// ============================================
 function setVolume(val){
     const volume = val / 100;
     audio.volume = volume;
     
-    // Update slider position to match
     const slider = document.getElementById('volumeSlider');
-    if(slider) {
-        slider.value = val;
-    }
+    if(slider) slider.value = val;
     
-    // Update volume icon based on level
     const volIcon = document.getElementById('volIcon');
     if(volIcon) {
-        volIcon.classList.remove('fa-volume-high', 'fa-volume-low', 'fa-volume-off', 'fa-volume-xmark', 'muted');
-        
-        if (val == 0) {
-            volIcon.className = 'fa-solid fa-volume-xmark muted';
-        } else if (val < 30) {
-            volIcon.className = 'fa-solid fa-volume-off';
-        } else if (val < 70) {
-            volIcon.className = 'fa-solid fa-volume-low';
-        } else {
-            volIcon.className = 'fa-solid fa-volume-high';
-        }
+        volIcon.className = 'fa-solid';
+        if (val == 0) volIcon.classList.add('fa-volume-xmark', 'muted');
+        else if (val < 30) volIcon.classList.add('fa-volume-off');
+        else if (val < 70) volIcon.classList.add('fa-volume-low');
+        else volIcon.classList.add('fa-volume-high');
     }
-    
-    // Save volume preference
     localStorage.setItem('audioVolume', val);
 }
 
@@ -1376,11 +1245,6 @@ function loadVolume() {
     }
 }
 
-// ============================================
-// AUDIO EVENT LISTENERS - FULLY FIXED
-// ============================================
-
-// Progress bar update - REAL TIME
 audio.addEventListener('timeupdate', () => {
     if(audio.duration && !isNaN(audio.duration) && audio.duration > 0){
         const progress = (audio.currentTime / audio.duration) * 100;
@@ -1388,7 +1252,6 @@ audio.addEventListener('timeupdate', () => {
     }
 });
 
-// When audio ends
 audio.addEventListener('ended', () => {
     isPlaying = false;
     document.getElementById('playIcon').className = 'fa-solid fa-play';
@@ -1397,32 +1260,14 @@ audio.addEventListener('ended', () => {
     nextTrack();
 });
 
-// On error
-audio.addEventListener('error', (e) => {
-    console.log('Audio error:', e);
+audio.addEventListener('error', () => {
     isPlaying = false;
     document.getElementById('playIcon').className = 'fa-solid fa-play';
     updateProgressBar(0);
     setTimeout(() => nextTrack(), 1500);
 });
 
-// Can play
-audio.addEventListener('canplaythrough', () => {
-    isLoading = false;
-    document.getElementById('playBtn').disabled = false;
-});
-
-audio.addEventListener('loadstart', () => {
-    isLoading = true;
-});
-
-audio.addEventListener('loadedmetadata', () => {
-    isLoading = false;
-});
-
-// ============================================
 // INIT
-// ============================================
 loadTrack(0);
 loadTheme();
 loadVolume();
