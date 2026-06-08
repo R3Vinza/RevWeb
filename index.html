@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -41,6 +41,7 @@ body{
     color:var(--text);
     min-height:100vh;
     padding-bottom:160px;
+    overflow-x: hidden; /* Mencegah web melar ke samping */
 }
 
 .page{display:none;animation:fade .3s ease;}
@@ -93,8 +94,9 @@ body{
 
 .header-right{
     display:flex;
-    gap:10px;
-    align-items:center;
+    flex-direction: column; /* Mengubah posisi menjadi ke bawah (vertikal) */
+    align-items: flex-end;
+    gap: 6px; /* Jarak antara tombol tema dan status aman */
 }
 
 .action-btn{
@@ -118,34 +120,41 @@ body{
     box-shadow:0 0 0 var(--shadow), 0 2px 5px var(--shadow);
 }
 
+/* Memperkecil & merapikan status aman agar pas di bawah tombol tema */
 .action-btn.status{
     width:auto;
-    padding:0 16px;
-    gap:8px;
-    font-size:13px;
+    height: 26px;
+    padding:0 10px;
+    gap:6px;
+    font-size:11px;
     font-weight:700;
     color:#22c55e;
+    border-radius: 8px;
+    box-shadow: none;
+    pointer-events: none;
+    transform: none;
 }
 
+/* Menyesuaikan ukuran tombol tema agar proporsional */
 .theme-btn{
-    width:48px;
-    height:48px;
-    border-radius:16px;
+    width:38px;
+    height:38px;
+    border-radius:12px;
     border:2px solid var(--border);
     background:linear-gradient(135deg, #f59e0b, #d97706);
     color:white;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:22px;
+    font-size:16px;
     cursor:pointer;
-    box-shadow:0 6px 0 rgba(0,0,0,.3), 0 8px 20px rgba(0,0,0,.3);
+    box-shadow:0 4px 0 rgba(0,0,0,.3);
     transition:.2s;
 }
 
 .theme-btn:active{
-    transform:translateY(6px);
-    box-shadow:0 0 0 rgba(0,0,0,.3), 0 2px 5px rgba(0,0,0,.3);
+    transform:translateY(4px);
+    box-shadow:0 0 0 rgba(0,0,0,.3);
 }
 
 /* DROPDOWN */
@@ -745,11 +754,12 @@ body{
             </div>
         </div>
     </div>
+    <!-- FIXED SUSUNAN VERTIKAL KE BAWAH -->
     <div class="header-right">
-        <div class="action-btn status"><i class="fa-solid fa-shield-halved"></i><span>Aman</span></div>
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
             <i class="fa-solid fa-moon" id="themeIcon"></i>
         </button>
+        <div class="action-btn status"><i class="fa-solid fa-shield-halved"></i><span>Aman</span></div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
         <div class="dropdown-item" onclick="showPage('home', document.querySelectorAll('.nav-btn')[0]); toggleDropdown();">
@@ -864,11 +874,12 @@ body{
             <div class="brand-text"><h1>All Tools</h1><p>Downloader & Utility</p></div>
         </div>
     </div>
+    <!-- SUSUNAN VERTIKAL HALAMAN TOOLS -->
     <div class="header-right">
-        <button class="action-btn" onclick="showPage('home', document.querySelectorAll('.nav-btn')[0])"><i class="fa-solid fa-arrow-left"></i></button>
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn2" title="Ganti Tema">
             <i class="fa-solid fa-moon" id="themeIcon2"></i>
         </button>
+        <button class="action-btn" onclick="showPage('home', document.querySelectorAll('.nav-btn')[0])" style="width: 38px; height: 38px; border-radius: 12px; font-size: 14px; box-shadow: 0 4px 0 var(--shadow);"><i class="fa-solid fa-arrow-left"></i></button>
     </div>
 </div>
 <div class="section-title" style="margin-top:20px;"><i class="fa-solid fa-fire"></i> Popular</div>
@@ -911,6 +922,7 @@ body{
             <div class="brand-text"><h1>Information</h1><p>About & Status</p></div>
         </div>
     </div>
+    <!-- SUSUNAN VERTIKAL HALAMAN INFO -->
     <div class="header-right">
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn3" title="Ganti Tema">
             <i class="fa-solid fa-moon" id="themeIcon3"></i>
@@ -937,6 +949,7 @@ body{
             <div class="brand-text"><h1>Developer</h1><p>Profile & Social</p></div>
         </div>
     </div>
+    <!-- SUSUNAN VERTIKAL HALAMAN PROFIL -->
     <div class="header-right">
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn4" title="Ganti Tema">
             <i class="fa-solid fa-moon" id="themeIcon4"></i>
@@ -1005,16 +1018,13 @@ body{
 </div>
 
 <script>
-// Pemicu instan untuk memaksa semua background video langsung jalan secepat mungkin
 document.querySelectorAll('.video-bg').forEach(video => {
     video.play().catch(() => {
-        // Jika browser memblokir di mili-detik pertama, coba lagi saat user menyentuh layar
         document.addEventListener('touchstart', () => { video.play(); }, { once: true });
         document.addEventListener('click', () => { video.play(); }, { once: true });
     });
 });
 
-// ==================== PLAYLIST ====================
 const playlist = [
     { title: "Aku yg malang 4", artist: "Superiots", src: "https://files.catbox.moe/zaw2q8.mp3", cover: "https://files.catbox.moe/9u1xpa.jpg" },
     { title: "Freaks", artist: "Surf Curse", src: "https://files.catbox.moe/qo5jed.m4a", cover: "https://files.catbox.moe/9u1xpa.jpg" },
@@ -1023,7 +1033,6 @@ const playlist = [
     { title: "The World is Ugly", artist: "My Chemical Romance", src: "https://files.catbox.moe/0ysqlj.m4a", cover: "https://files.catbox.moe/9u1xpa.jpg" }
 ];
 
-// ==================== DROPDOWN ====================
 function toggleDropdown() {
     document.getElementById('dropdownMenu').classList.toggle('show');
 }
@@ -1043,7 +1052,6 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// ==================== THEME ====================
 function toggleTheme() {
     const html = document.documentElement;
     const currentTheme = html.getAttribute('data-theme');
@@ -1065,7 +1073,6 @@ function loadTheme() {
     });
 }
 
-// ==================== NAVIGATION ====================
 function showPage(pageId, btn){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
@@ -1074,13 +1081,13 @@ function showPage(pageId, btn){
     window.scrollTo(0,0);
 }
 
-// ==================== BANNER SLIDER ====================
 let currentSlide = 0;
 const totalSlides = 2;
 
 function goToSlide(n){
     currentSlide = n;
-    document.getElementById('bannerTrack').style.transform = `translateX(-${n * 100}%)`;
+    const track = document.getElementById('bannerTrack');
+    if(track) track.style.transform = `translateX(-${n * 100}%)`;
     document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
 }
 
@@ -1088,23 +1095,24 @@ let autoSlide = setInterval(() => {
     goToSlide((currentSlide + 1) % totalSlides);
 }, 4000);
 
-// SWIPE BANNER
 let touchStartX = 0;
 let touchEndX = 0;
 const bannerSlider = document.getElementById('bannerSlider');
 
-bannerSlider.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    clearInterval(autoSlide);
-}, {passive: true});
+if(bannerSlider) {
+    bannerSlider.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        clearInterval(autoSlide);
+    }, {passive: true});
 
-bannerSlider.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-    autoSlide = setInterval(() => {
-        goToSlide((currentSlide + 1) % totalSlides);
-    }, 4000);
-}, {passive: true});
+    bannerSlider.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+        autoSlide = setInterval(() => {
+            goToSlide((currentSlide + 1) % totalSlides);
+        }, 4000);
+    }, {passive: true});
+}
 
 function handleSwipe() {
     const swipeThreshold = 50;
@@ -1123,7 +1131,6 @@ function selectCategory(el){
     el.classList.add('active');
 }
 
-// ==================== AUDIO PLAYER ====================
 let trackIndex = 0;
 let isPlaying = false;
 let audio = new Audio();
@@ -1254,7 +1261,6 @@ audio.addEventListener('error', () => {
     setTimeout(() => nextTrack(), 1500);
 });
 
-// INIT
 loadTrack(0);
 loadTheme();
 loadVolume();
