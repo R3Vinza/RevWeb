@@ -419,7 +419,7 @@
 
     <!-- Main Workspace Container -->
     <div class="container">
-        
+
         <div class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Panel</div>
 
         <div class="generator-box card-upin">
@@ -448,7 +448,7 @@
         </div>
 
         <div class="section-title"><i class="fa-solid fa-images"></i> Galeri Hasil Generate</div>
-        
+
         <!-- Grid Galeri Kartu -->
         <div class="gallery" id="gallery"></div>
 
@@ -576,10 +576,10 @@
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
+
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            
+
             const icon = document.getElementById('themeIcon');
             if(icon) icon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
         }
