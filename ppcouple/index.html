@@ -1,497 +1,595 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PP Couple Generator - ReyCloudDev</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-
-:root{
-    --bg:#0f172a;
-    --card:#111827;
-    --primary:#8b5cf6;
-    --secondary:#ec4899;
-    --text:#f8fafc;
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
-
-body{
-    background:
-    radial-gradient(circle at top right,#312e81 0%,transparent 25%),
-    radial-gradient(circle at bottom left,#831843 0%,transparent 25%),
-    var(--bg);
-
-    color:var(--text);
-
-    min-height:100vh;
-
-    padding:20px;
-}
-
-.container{
-    max-width:1400px;
-    margin:auto;
-}
-
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:30px;
-}
-
-.logo{
-    font-size:28px;
-    font-weight:800;
-}
-
-.logo span{
-    color:var(--secondary);
-}
-
-.back{
-    text-decoration:none;
-    color:white;
-
-    background:rgba(255,255,255,.08);
-
-    padding:12px 18px;
-
-    border-radius:18px;
-
-    transition:.3s;
-}
-
-.back:hover{
-    background:var(--primary);
-}
-
-.hero{
-    text-align:center;
-    margin-bottom:35px;
-}
-
-.hero h1{
-    font-size:45px;
-    margin-bottom:10px;
-}
-
-.hero p{
-    color:#cbd5e1;
-    font-size:14px;
-}
-
-.generator-box{
-    max-width:550px;
-    margin:auto;
-
-    background:rgba(17,24,39,.75);
-
-    border:1px solid rgba(255,255,255,.05);
-
-    border-radius:30px;
-
-    padding:30px;
-
-    backdrop-filter:blur(14px);
-
-    margin-bottom:40px;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-
-    margin-bottom:25px;
-}
-
-.stat{
-    background:#1e293b;
-    border-radius:18px;
-    padding:16px;
-    text-align:center;
-}
-
-.stat h2{
-    color:var(--secondary);
-    margin-bottom:5px;
-}
-
-.stat p{
-    color:#94a3b8;
-    font-size:12px;
-}
-
-.generate-btn{
-    width:100%;
-    border:none;
-
-    padding:17px;
-
-    border-radius:20px;
-
-    background:linear-gradient(
-        45deg,
-        var(--primary),
-        var(--secondary)
-    );
-
-    color:white;
-
-    font-size:15px;
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.generate-btn:hover{
-    transform:translateY(-5px);
-}
-
-.loading{
-    display:none;
-    text-align:center;
-    margin-top:20px;
-    color:#cbd5e1;
-}
-
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:22px;
-}
-
-.card{
-    background:rgba(17,24,39,.75);
-
-    border-radius:28px;
-
-    overflow:hidden;
-
-    border:1px solid rgba(255,255,255,.05);
-
-    backdrop-filter:blur(12px);
-
-    transition:.3s;
-}
-
-.card:hover{
-    transform:translateY(-6px);
-}
-
-.images{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-}
-
-.images img{
-    width:100%;
-    height:260px;
-    object-fit:cover;
-}
-
-.shimmer{
-    width:100%;
-    height:260px;
-    background:#1e293b;
-    position:relative;
-    overflow:hidden;
-}
-
-.shimmer::before{
-    content:'';
-
-    position:absolute;
-    top:0;
-    left:-150%;
-
-    width:80%;
-    height:100%;
-
-    background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,.15),
-        transparent
-    );
-
-    animation:shine 1.2s infinite;
-}
-
-@keyframes shine{
-    100%{
-        left:200%;
-    }
-}
-
-.card-body{
-    padding:18px;
-}
-
-.card-body h3{
-    margin-bottom:8px;
-}
-
-.card-body p{
-    color:#94a3b8;
-    font-size:13px;
-    margin-bottom:15px;
-}
-
-.actions{
-    display:flex;
-    gap:10px;
-}
-
-.btn{
-    flex:1;
-    border:none;
-    padding:13px;
-    border-radius:15px;
-    color:white;
-    font-weight:700;
-    cursor:pointer;
-}
-
-.male{
-    background:#3b82f6;
-}
-
-.female{
-    background:#ec4899;
-}
-
-.footer{
-    text-align:center;
-    color:#64748b;
-    margin-top:45px;
-    font-size:13px;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PP Couple Generator - RevinzaDesigner</title>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --text: #f8fafc;
+            --soft: #94a3b8;
+            --border: rgba(0,0,0,.3);
+            --shadow: rgba(0,0,0,.3);
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f5f0;
+            --card: #ffffff;
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --text: #1a1a1a;
+            --soft: #666666;
+            --border: rgba(0,0,0,.15);
+            --shadow: rgba(0,0,0,.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 40px;
+            overflow-x: hidden;
+        }
+
+        /* CARDS GAYA DASHBOARD */
+        .card-upin {
+            background: var(--card);
+            border-radius: 24px;
+            border: 2px solid var(--border);
+            box-shadow: 0 6px 0 var(--shadow), 0 8px 20px var(--shadow);
+            transition: .2s;
+        }
+
+        /* HEADER GAYA DASHBOARD */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(139,92,246,.3);
+        }
+
+        .brand-text h1 { font-size: 20px; font-weight: 800; }
+        .brand-text p { font-size: 12px; color: var(--soft); }
+
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 var(--shadow), 0 8px 20px var(--shadow);
+            transition: .2s;
+            text-decoration: none;
+        }
+
+        .action-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 var(--shadow), 0 2px 5px var(--shadow);
+        }
+
+        .action-btn.status {
+            width: auto;
+            height: 26px;
+            padding: 0 10px;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #22c55e;
+            border-radius: 8px;
+            box-shadow: none;
+            pointer-events: none;
+            transform: none;
+        }
+
+        .theme-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0,0,0,.3);
+            transition: .2s;
+        }
+
+        .theme-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 rgba(0,0,0,.3);
+        }
+
+        /* CONTAINER UTAMA */
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 25px 0 15px;
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--secondary);
+        }
+
+        /* GENERATOR CONTROL BOX */
+        .generator-box {
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .stat h2 {
+            font-size: 20px;
+            color: var(--secondary);
+            margin-bottom: 4px;
+            font-weight: 800;
+        }
+
+        .stat p {
+            color: var(--soft);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* BUTTON PROCESS */
+        .generate-btn {
+            width: 100%;
+            border: 2px solid var(--border);
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--shadow);
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .generate-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 var(--shadow);
+        }
+
+        /* LOADER STATUS */
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* GALLERY GRID */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            overflow: hidden;
+        }
+
+        .images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 2px solid var(--border);
+            background: #000;
+        }
+
+        .images img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        /* SHIMMER EFFECT GAYA DASHBOARD */
+        .shimmer {
+            width: 100%;
+            height: 240px;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 80%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+            animation: shine 1.2s infinite;
+        }
+
+        @keyframes shine {
+            100% { left: 200%; }
+        }
+
+        .card-body {
+            padding: 18px;
+        }
+
+        .card-body h3 {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .card-body p {
+            color: var(--soft);
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        /* ACTION DOWNLOAD BUTTONS */
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            border: 2px solid var(--border);
+            padding: 12px;
+            border-radius: 14px;
+            color: white;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--shadow);
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 var(--shadow);
+        }
+
+        .male { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .female { background: linear-gradient(135deg, #ec4899, #be185d); }
+
+        /* TOAST NOTIFIKASI */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card);
+            color: var(--text);
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            z-index: 9999;
+            border: 2px solid var(--border);
+            box-shadow: 0 6px 20px var(--shadow);
+            animation: slideIn 0.3s ease-out;
+            text-align: center;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(-50%) translateY(0); opacity: 1; }
+            to { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--soft);
+            margin-top: 45px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-
-<div class="topbar">
-
-<div class="logo">
-REY<span>CLOUDDEV</span>
-</div>
-
-<a href="/" class="back">
-← Dashboard
-</a>
-
-</div>
-
-<div class="hero">
-
-<h1>PP Couple Generator</h1>
-
-<p>
-Generate 30 PP couple sekaligus. Biar galeri lu penuh pasangan anime padahal jomblo kronis.
-</p>
-
-</div>
-
-<div class="generator-box">
-
-<div class="stats">
-
-<div class="stat">
-<h2>30x</h2>
-<p>Output</p>
-</div>
-
-<div class="stat">
-<h2>HD</h2>
-<p>Image</p>
-</div>
-
-<div class="stat">
-<h2>FAST</h2>
-<p>Loading</p>
-</div>
-
-</div>
-
-<button class="generate-btn" onclick="generatePP()">
-<i class="fa-solid fa-heart"></i>
- Generate 30 PP Couple
-</button>
-
-<div class="loading" id="loading">
-Sedang nyulik anime couple dari server...
-</div>
-
-</div>
-
-<div class="gallery" id="gallery"></div>
-
-<div class="footer">
-Powered By ReyCloudDev
-</div>
-
-</div>
-
-<script>
-
-async function generatePP(){
-
-    const gallery = document.getElementById("gallery");
-    const loading = document.getElementById("loading");
-
-    gallery.innerHTML = "";
-
-    loading.style.display = "block";
-
-    for(let i=1;i<=30;i++){
-
-        const card = document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-        
-        <div class="images">
-
-            <div class="shimmer" id="male-shimmer-${i}"></div>
-
-            <div class="shimmer" id="female-shimmer-${i}"></div>
-
-            <img id="male-${i}" style="display:none;">
-            <img id="female-${i}" style="display:none;">
-
+    <!-- Header Gaya Dashboard -->
+    <div class="header">
+        <div class="header-left">
+            <a href="/" class="action-btn" title="Kembali ke Dashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-heart-crack"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>RevinzaDesigner</h1>
+                    <p>PP Couple Generator</p>
+                </div>
+            </div>
         </div>
+        <div class="header-right">
+            <button class="theme-btn" onclick="toggleTheme()" title="Ganti Tema">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+            <div class="action-btn status"><i class="fa-solid fa-user-ninja"></i><span>JOMBLO</span></div>
+        </div>
+    </div>
 
-        <div class="card-body">
+    <!-- Main Workspace Container -->
+    <div class="container">
+        
+        <div class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Generator Panel</div>
 
-            <h3>PP Couple ${i}</h3>
-
-            <p>
-            Paket couple anime siap pakai buat profil WA, Telegram, TikTok, atau buat halu berjamaah.
-            </p>
-
-            <div class="actions">
-
-                <button class="btn male" onclick="downloadImage('male-${i}')">
-                    Cowo
-                </button>
-
-                <button class="btn female" onclick="downloadImage('female-${i}')">
-                    Cewe
-                </button>
-
+        <div class="generator-box card-upin">
+            <div class="stats">
+                <div class="stat">
+                    <h2>30x</h2>
+                    <p>Batch Output</p>
+                </div>
+                <div class="stat">
+                    <h2>HD</h2>
+                    <p>High Quality</p>
+                </div>
+                <div class="stat">
+                    <h2>FAST</h2>
+                    <p>Instant Load</p>
+                </div>
             </div>
 
-        </div>
-        
-        `;
+            <button class="generate-btn" onclick="generatePP()">
+                <i class="fa-solid fa-fire"></i> GENERATE 30 PP COUPLE
+            </button>
 
-        gallery.appendChild(card);
-
-        try{
-
-            const res = await fetch("https://api.ikyyxd.my.id/random/ppcouple?apikey=kyzz");
-
-            const data = await res.json();
-
-            const male = data.result.cowo;
-            const female = data.result.cewe;
-
-            const maleImg = document.getElementById(`male-${i}`);
-            const femaleImg = document.getElementById(`female-${i}`);
-
-            maleImg.src = male;
-            femaleImg.src = female;
-
-            maleImg.onload = () => {
-
-                document.getElementById(`male-shimmer-${i}`).remove();
-
-                maleImg.style.display = "block";
-
-                maleImg.setAttribute("data-url", male);
-
-            }
-
-            femaleImg.onload = () => {
-
-                document.getElementById(`female-shimmer-${i}`).remove();
-
-                femaleImg.style.display = "block";
-
-                femaleImg.setAttribute("data-url", female);
-
-            }
-
-        }catch(err){
-
-            document.getElementById(`male-shimmer-${i}`).innerHTML = `
-            
-            <div style="
-                height:100%;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                color:#94a3b8;
-                font-size:13px;
-            ">
-                Error 🗿
+            <div class="loading" id="loading">
+                <i class="fa-solid fa-spinner fa-spin"></i> Sedang menculik anime couple dari server...
             </div>
-            
-            `;
+        </div>
 
+        <div class="section-title"><i class="fa-solid fa-images"></i> Galeri Hasil Generate</div>
+        
+        <!-- Grid Galeri Kartu -->
+        <div class="gallery" id="gallery"></div>
+
+        <div class="footer">
+            &copy; 2026 RevinzaDesigner. All Rights Reserved.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+        });
+
+        async function generatePP(){
+            const gallery = document.getElementById("gallery");
+            const loading = document.getElementById("loading");
+
+            gallery.innerHTML = "";
+            loading.style.display = "block";
+
+            showNotification("Memulai batch pencarian 30 PP Couple...", "🔥");
+
+            for(let i=1; i<=30; i++){
+                const card = document.createElement("div");
+                card.className = "card card-upin";
+
+                card.innerHTML = `
+                <div class="images">
+                    <div class="shimmer" id="male-shimmer-${i}"></div>
+                    <div class="shimmer" id="female-shimmer-${i}"></div>
+                    <img id="male-${i}" style="display:none;">
+                    <img id="female-${i}" style="display:none;">
+                </div>
+                <div class="card-body">
+                    <h3>PP Couple Premium #${i}</h3>
+                    <p>Paket matching avatar siap pakai untuk profil WhatsApp, Telegram, TikTok, atau kebutuhan sosial mediamu.</p>
+                    <div class="actions">
+                        <button class="btn male" onclick="downloadImage('male-${i}')">
+                            <i class="fa-solid fa-mars"></i> Cowok
+                        </button>
+                        <button class="btn female" onclick="downloadImage('female-${i}')">
+                            <i class="fa-solid fa-venus"></i> Cewek
+                        </button>
+                    </div>
+                </div>
+                `;
+
+                gallery.appendChild(card);
+
+                try {
+                    const res = await fetch("https://api.ikyyxd.my.id/random/ppcouple?apikey=kyzz");
+                    const data = await res.json();
+
+                    const male = data.result.cowo;
+                    const female = data.result.cewe;
+
+                    const maleImg = document.getElementById(`male-${i}`);
+                    const femaleImg = document.getElementById(`female-${i}`);
+
+                    maleImg.src = male;
+                    femaleImg.src = female;
+
+                    maleImg.onload = () => {
+                        const shimmer = document.getElementById(`male-shimmer-${i}`);
+                        if(shimmer) shimmer.remove();
+                        maleImg.style.display = "block";
+                        maleImg.setAttribute("data-url", male);
+                    }
+
+                    femaleImg.onload = () => {
+                        const shimmer = document.getElementById(`female-shimmer-${i}`);
+                        if(shimmer) shimmer.remove();
+                        femaleImg.style.display = "block";
+                        femaleImg.setAttribute("data-url", female);
+                    }
+
+                } catch(err) {
+                    const maleShimmer = document.getElementById(`male-shimmer-${i}`);
+                    if (maleShimmer) {
+                        maleShimmer.innerHTML = `<div style="height:100%; display:flex; justify-content:center; align-items:center; color:var(--soft); font-size:12px; font-weight:700;">Error 🗿</div>`;
+                    }
+                }
+            }
+
+            loading.style.display = "none";
+            showNotification("30 Pasang PP Couple sukses dimuat!", "✅");
         }
 
-    }
+        function downloadImage(id){
+            const img = document.getElementById(id);
+            const url = img ? img.getAttribute("data-url") : null;
 
-    loading.style.display = "none";
+            if(!url){
+                showNotification("Gambar belum siap, tunggu sebentar!", "⚠️");
+                return;
+            }
 
-}
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `pp-couple-${id}.jpg`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
 
-function downloadImage(id){
+        // Custom Toast Notification 
+        function showNotification(message, icon = "🚀") {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `<span>${icon}</span> ${message}`;
+            document.body.appendChild(notification);
 
-    const img = document.getElementById(id);
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 2000);
+        }
 
-    const url = img.getAttribute("data-url");
+        // Theme Switcher Sync Engine
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            if(icon) icon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        }
 
-    if(!url){
-        alert("Gambar belum siap bambang.");
-        return;
-    }
-
-    const a = document.createElement("a");
-
-    a.href = url;
-
-    a.download = "pp-couple.jpg";
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    document.body.removeChild(a);
-
-}
-
-</script>
-
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = document.getElementById('themeIcon');
+            if(icon) icon.className = savedTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        }
+    </script>
 </body>
 </html>
