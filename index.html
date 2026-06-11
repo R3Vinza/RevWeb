@@ -787,7 +787,7 @@ body{
             <p>Downloader, AI, Utility tools, dan layanan developer dalam satu website.</p>
             <div class="tag"><i class="fa-solid fa-sparkles"></i> RevinzaDesigner - Layanan Online</div>
         </div>
-        
+
         <div class="banner-slide" style="background:#0f172a;">
             <video class="video-bg" autoplay loop muted playsinline preload="auto">
                 <source src="https://files.catbox.moe/00xajd.mp4" type="video/mp4">
@@ -950,8 +950,7 @@ body{
     <div class="profile-card card-upin">
         <img src="https://files.catbox.moe/9u1xpa.jpg" alt="RevinzaDesigner">
         <h2>RevinzaDesigner</h2>
-        <div class="role">Founder & Fullstack Developer</div>
-        <p>Web Developer • Script Developer • UI Designer</p>
+        <div class="role">Hanya Insan Biasa</div>
     </div>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 20px 18px;">
         <span class="card-upin" style="background:#f7df1e;color:#000;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;">JavaScript</span>
@@ -1034,12 +1033,12 @@ document.addEventListener('click', function(e) {
     const menu = document.getElementById('dropdownMenu');
     const menuBtns = ['menuBtn', 'menuBtn2', 'menuBtn3', 'menuBtn4'];
     let clickedBtn = false;
-    
+
     menuBtns.forEach(id => {
         const btn = document.getElementById(id);
         if (btn && btn.contains(e.target)) clickedBtn = true;
     });
-    
+
     if (!menu.contains(e.target) && !clickedBtn) {
         menu.classList.remove('show');
     }
@@ -1049,10 +1048,10 @@ function toggleTheme() {
     const html = document.documentElement;
     const currentTheme = html.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
+
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
-    
+
     document.querySelectorAll('[id^="themeIcon"]').forEach(icon => {
         icon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
     });
@@ -1137,17 +1136,17 @@ function loadTrack(i){
     isLoading = true;
     trackIndex = i;
     const track = playlist[i];
-    
+
     audio.pause();
     audio.src = track.src;
     audio.load();
-    
+
     document.getElementById('audioTitle').textContent = track.title;
     document.getElementById('audioArtist').textContent = track.artist;
-    
+
     const coverImg = document.querySelector('#audioCover img');
     if(coverImg && track.cover) coverImg.src = track.cover;
-    
+
     updateProgressBar(0);
     isLoading = false;
 }
@@ -1161,7 +1160,7 @@ function togglePlay(){
     if(isLoading) return;
     const icon = document.getElementById('playIcon');
     const playBtn = document.getElementById('playBtn');
-    
+
     if(isPlaying){
         audio.pause();
         isPlaying = false;
@@ -1188,7 +1187,7 @@ function nextTrack(){
     audio.pause(); isPlaying = false;
     document.getElementById('playIcon').className = 'fa-solid fa-play';
     document.getElementById('playBtn').style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
-    
+
     trackIndex = (trackIndex + 1) % playlist.length;
     loadTrack(trackIndex);
     setTimeout(() => { togglePlay(); }, 300);
@@ -1199,7 +1198,7 @@ function prevTrack(){
     audio.pause(); isPlaying = false;
     document.getElementById('playIcon').className = 'fa-solid fa-play';
     document.getElementById('playBtn').style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
-    
+
     trackIndex = (trackIndex - 1 + playlist.length) % playlist.length;
     loadTrack(trackIndex);
     setTimeout(() => { togglePlay(); }, 300);
@@ -1208,10 +1207,10 @@ function prevTrack(){
 function setVolume(val){
     const volume = val / 100;
     audio.volume = volume;
-    
+
     const slider = document.getElementById('volumeSlider');
     if(slider) slider.value = val;
-    
+
     const volIcon = document.getElementById('volIcon');
     if(volIcon) {
         volIcon.className = 'fa-solid';
